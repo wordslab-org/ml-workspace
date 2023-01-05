@@ -95,3 +95,6 @@ hs_err_pid*
 *.swo
 temp/*
 .DS_Store
+
+# Visual Studio cache/options directory
+.vs/
