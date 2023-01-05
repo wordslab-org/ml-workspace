@@ -15,3 +15,4 @@
 . ~/ml-workspace/install/15-install-miniconda-pip-python.sh
 . ~/ml-workspace/install/16-install-nodejs-npm-typescript.sh
 . ~/ml-workspace/install/17-install-dotnet-sdk.sh
+. ~/ml-workspace/install/18-install-desktop-gui-vnc.sh

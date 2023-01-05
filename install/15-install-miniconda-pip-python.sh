@@ -76,10 +76,20 @@ python -m pipx ensurepath && \
 
 export PATH=$HOME/.local/bin:$PATH
 
+# Install supervisor for process supervision
+# Create sshd run directory - required for starting process via supervisor
+mkdir -p /var/run/sshd && chmod 400 /var/run/sshd
+# Install rsyslog for syslog logging
+apt-get install -y --no-install-recommends rsyslog
+pipx install supervisor
+pipx inject supervisor supervisor-stdout
+# supervisor needs this logging path
+mkdir -p /var/log/supervisor/
+
 # Fix permissions
 fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 
-# Layer size: 272 MB 
-# Total size: 1090 MB
+# Layer size: 299 MB 
+# Total size: 1117 MB

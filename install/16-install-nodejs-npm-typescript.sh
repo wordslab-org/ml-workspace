@@ -2,9 +2,11 @@
 # https://github.com/LukasMasuch
 apt-get update
 
+export NODEJS_VERSION=18
+
 # Install node.js
 # https://nodejs.org/en/about/releases/ use even numbered releases, i.e. LTS versions
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | sudo -E bash -
 apt-get install -y nodejs
 # As conda is first in path, the commands 'node' and 'npm' reference to the version of conda.
 # Replace those versions with the newly installed versions of node
@@ -38,4 +40,4 @@ fix-permissions.sh $HOME
 clean-layer.sh
 
 # Layer size: 267 MB 
-# Total size: 1357 MB
+# Total size: 1384 MB

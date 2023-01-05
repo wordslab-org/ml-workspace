@@ -11,11 +11,6 @@ apt-get install -y --no-install-recommends subversion
 # jed : editor for programmers (textmode version)
 apt-get install -y --no-install-recommends jed
 
-# Update git to newest version
-add-apt-repository -y ppa:git-core/ppa
-apt-get update
-apt-get install -y --no-install-recommends git
-
 # Fix all execution permissions
 chmod -R a+rwx /usr/local/bin/
 
