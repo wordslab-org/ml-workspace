@@ -9,6 +9,7 @@ kubectl exec -it ml-workspace-test-7cb4d95c77-d9dvn -- /bin/bash
 kubectl get pod ml-workspace-test-7cb4d95c77-d9dvn -o json | grep containerID
 k3s ctr snapshots usage | grep cd3d41ce880f03c28731fff2d76cd1f8dafc64d47cd1b7da62917648bc7d043c
 
-apt install git
+apt update
+apt install -y git
 git clone https://github.com/wordslab-org/ml-workspace.git
 . ~/ml-workspace/install/install-ml-workspace.sh

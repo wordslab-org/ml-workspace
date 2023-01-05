@@ -40,7 +40,7 @@ chmod -R a+rwx $RESOURCES_PATH
 
 export PATH=/usr/local/openresty/nginx/sbin:$PATH
 
-cp resources/nginx/lua-extensions /etc/nginx/nginx_plugins
+cp ~/ml-workspace/resources/nginx/lua-extensions /etc/nginx/nginx_plugins
 
 # Fix permissions
 fix-permissions.sh $HOME

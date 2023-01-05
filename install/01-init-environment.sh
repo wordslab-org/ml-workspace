@@ -24,8 +24,8 @@ mkdir -p $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME
 mkdir -p $SSL_RESOURCES_PATH && chmod a+rwx $SSL_RESOURCES_PATH
 
 # Layer cleanup script
-cp resources/scripts/clean-layer.sh  /usr/bin/clean-layer.sh
-cp resources/scripts/fix-permissions.sh  /usr/bin/fix-permissions.sh
+cp ~/ml-workspace/resources/scripts/clean-layer.sh  /usr/bin/clean-layer.sh
+cp ~/ml-workspace/resources/scripts/fix-permissions.sh  /usr/bin/fix-permissions.sh
 
 # Make clean-layer and fix-permissions executable
 chmod a+rwx /usr/bin/clean-layer.sh
