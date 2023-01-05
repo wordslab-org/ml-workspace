@@ -40,12 +40,13 @@ chmod -R a+rwx $RESOURCES_PATH
 
 export PATH=/usr/local/openresty/nginx/sbin:$PATH
 
-cp ~/ml-workspace/resources/nginx/lua-extensions /etc/nginx/nginx_plugins
+mkdir -p /etc/nginx/nginx_plugins
+cp -r ~/ml-workspace/resources/nginx/lua-extensions /etc/nginx/nginx_plugins
 
 # Fix permissions
 fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 
-# Layer size: ?? MB 
-# Total size: ?? MB
+# Layer size: 22 MB 
+# Total size: 818 MB

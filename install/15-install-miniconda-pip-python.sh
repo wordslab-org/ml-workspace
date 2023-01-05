@@ -58,7 +58,7 @@ export ENV LD_LIBRARY_PATH=$CONDA_ROOT/lib
 git clone https://github.com/pyenv/pyenv.git $RESOURCES_PATH/.pyenv
 # Install pyenv plugins based on pyenv installer
 git clone https://github.com/pyenv/pyenv-virtualenv.git $RESOURCES_PATH/.pyenv/plugins/pyenv-virtualenv
-git clone git://github.com/pyenv/pyenv-doctor.git $RESOURCES_PATH/.pyenv/plugins/pyenv-doctor
+git clone https://github.com/pyenv/pyenv-doctor.git $RESOURCES_PATH/.pyenv/plugins/pyenv-doctor
 git clone https://github.com/pyenv/pyenv-update.git $RESOURCES_PATH/.pyenv/plugins/pyenv-update
 git clone https://github.com/pyenv/pyenv-which-ext.git $RESOURCES_PATH/.pyenv/plugins/pyenv-which-ext
 
@@ -81,5 +81,5 @@ fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 
-# Layer size: ?? MB 
-# Total size: ?? MB
+# Layer size: 272 MB 
+# Total size: 1090 MB
