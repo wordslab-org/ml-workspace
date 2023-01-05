@@ -9,10 +9,15 @@
 . ~/ml-workspace/install/09-install-X11-extensions.sh
 . ~/ml-workspace/install/10-install-protobuf-build-tools.sh
 . ~/ml-workspace/install/11-install-compression-tools.sh
-. ~/ml-workspace/install/12-instal-openssh-tools.sh
+. ~/ml-workspace/install/12-install-openssh-tools.sh
 . ~/ml-workspace/install/13-install-container-entrypoint.sh
 . ~/ml-workspace/install/14-install-openresty-web-gateway.sh
 . ~/ml-workspace/install/15-install-miniconda-pip-python.sh
 . ~/ml-workspace/install/16-install-nodejs-npm-typescript.sh
 . ~/ml-workspace/install/17-install-dotnet-sdk.sh
 . ~/ml-workspace/install/18-install-desktop-gui-vnc.sh
+. ~/ml-workspace/install/19-install-web-tools.sh
+. ~/ml-workspace/install/20-install-datascience-librairies.sh
+. ~/ml-workspace/install/21-install-jupyter-jupyterlab.sh
+. ~/ml-workspace/install/22-install-vscode-ide.sh
+. ~/ml-workspace/install/23-configure-workspace.sh

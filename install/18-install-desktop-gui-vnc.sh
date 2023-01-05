@@ -55,7 +55,7 @@ apt-get remove -y app-install-data gnome-user-guide
 # Add the defaults from /lib/x86_64-linux-gnu, otherwise lots of no version errors
 # cannot be added above otherwise there are errors in the installation of the gui tools
 # Call order: https://unix.stackexchange.com/questions/367600/what-is-the-order-that-linuxs-dynamic-linker-searches-paths-in
-ENV LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$CONDA_ROOT/lib
+export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$CONDA_ROOT/lib
 
 # Install VNC
 # required for websockify
@@ -77,5 +77,5 @@ fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 
-# Layer size: ?? MB 
-# Total size: ?? MB
+# Layer size: 650 MB 
+# Total size: 2784 MB
