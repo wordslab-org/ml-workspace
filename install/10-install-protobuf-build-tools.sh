@@ -37,4 +37,4 @@ clean-layer.sh
 # Layer size: 76 MB 
 # - protobuf & libprotobuf = 24 MB
 # - cmake = 33 MB
-# Total size: 789 MB
+# Total size: 843 MB

@@ -11,4 +11,4 @@ chmod +x /tini
 clean-layer.sh
 
 # Layer size: 0.1 MB 
-# Total size: 796 MB
+# Total size: 850 MB

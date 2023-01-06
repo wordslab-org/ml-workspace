@@ -33,4 +33,4 @@ clean-layer.sh
 
 # Layer size: 97 MB 
 # - graphviz & libgraphviz = 31 MB
-# Total size: 708 MB
+# Total size: 762 MB
