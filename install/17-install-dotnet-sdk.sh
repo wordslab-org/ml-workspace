@@ -29,4 +29,4 @@ fix-permissions.sh $HOME
 clean-layer.sh
 
 # Layer size: 746 MB
-# Total size: 2188 MB
+# Total size: 2229 MB

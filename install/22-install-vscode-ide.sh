@@ -5,11 +5,11 @@ apt-get update
 ### VSCODE ###
 
 ## VS Code Server: https://github.com/codercom/code-server
-cp ~/ml-worskpace/resources/tools/vs-code-server.sh $RESOURCES_PATH/tools/vs-code-server.sh
+cp ~/ml-workspace/resources/tools/vs-code-server.sh $RESOURCES_PATH/tools/vs-code-server.sh
 /bin/bash $RESOURCES_PATH/tools/vs-code-server.sh --install
 
 # Install Visual Studio Code
-cp ~/ml-worskpace/resources/tools/vs-code-desktop.sh $RESOURCES_PATH/tools/vs-code-desktop.sh
+cp ~/ml-workspace/resources/tools/vs-code-desktop.sh $RESOURCES_PATH/tools/vs-code-desktop.sh
 # If minimal flavor - do not install
 if [ "$WORKSPACE_FLAVOR" = "minimal" ]; then \
     exit 0 ; \

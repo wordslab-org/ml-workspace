@@ -39,6 +39,7 @@ $CONDA_ROOT/bin/conda install -y --update-all python=$PYTHON_VERSION
 
 # Link Conda
 ln -s $CONDA_ROOT/bin/python /usr/local/bin/python
+ln -s -f $CONDA_ROOT/bin/python /usr/bin/python
 ln -s $CONDA_ROOT/bin/conda /usr/bin/conda
 
 # Update
@@ -53,6 +54,9 @@ $CONDA_ROOT/bin/conda build purge-all
 
 # There is nothing added yet to LD_LIBRARY_PATH, so we can overwrite
 export ENV LD_LIBRARY_PATH=$CONDA_ROOT/lib
+
+# Add mamba as a faster conda alternative
+conda install -y -c conda-forge mamba
 
 # Install pyenv to allow dynamic creation of python versions
 git clone https://github.com/pyenv/pyenv.git $RESOURCES_PATH/.pyenv
@@ -91,5 +95,5 @@ fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 
-# Layer size: 299 MB 
-# Total size: 1171 MB
+# Layer size: 340 MB 
+# Total size: 1212 MB
