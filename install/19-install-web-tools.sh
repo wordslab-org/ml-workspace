@@ -19,9 +19,9 @@ cp ~/ml-workspace/resources/tools/netdata.sh $RESOURCES_PATH/tools/netdata.sh
 # netifaces: Portable network interface information.
 # py-cpuinfo: Get CPU info with pure Python 2 & 3
 # glances: A cross-platform curses-based monitoring tool
-mamba install psutil bottle netifaces py-cpuinfo glances
+mamba install -y psutil bottle netifaces py-cpuinfo glances
 # pymdstat: Python library to parse Linux /proc/mdstat
-pip install pymdstat
+pip install --no-input pymdstat
 
 ## Filebrowser
 cp ~/ml-workspace/resources/tools/filebrowser.sh $RESOURCES_PATH/tools/filebrowser.sh

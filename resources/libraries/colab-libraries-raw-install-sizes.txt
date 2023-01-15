@@ -1,0 +1,122 @@
+# Install Colab libraries
+# -----------------------
+# cudatoolkit             635.9 MB
+# gcc_impl_linux-64        48.9 MB
+# sysroot_linux-64         32.9 MB
+# libdb                    24.4 MB
+# gxx_impl_linux-64        12.0 MB
+# openblas                 11.4 MB
+# pandas                   10.7 MB
+# cmake                     8.8 MB
+# plotly                    5.9 MB
+# binutils_impl_linux-64    4.9 MB
+# gettext                   4.3 MB
+# libgcc-devel_linux-64     3.5 MB
+# libglib                   3.3 MB
+# => TOTAL: 3142 MB
+mamba install -y aeppl astor ale-py atomicwrites autograd cmake colorlover crcmod cufflinks-py cupy cvxpy
+# -----------------------
+# pillow                   46.2 MB
+# libarrow                 26.7 MB
+# libgoogle-cloud           8.3 MB
+# matplotlib-base           7.9 MB
+# google-api-python-client  5.3 MB
+# libgrpc                   5.2 MB
+# libthrift                 4.8 MB
+# dlib                      4.2 MB
+# aws-sdk-cpp               3.9 MB
+# pyarrow                   3.8 MB
+# => TOTAL: 439 MB 
+mamba install -y datascience debugpy descartes dlib earthengine-api easydict editdistance etils fa2 fastdtw fastrlock feather-format
+# qt-main                  54.9 MB
+# libllvm15                32.0 MB
+# libopencv                30.0 MB
+# gensim                   22.8 MB
+# scikit-image             12.2 MB
+# ffmpeg                    9.6 MB
+# libclang13                9.4 MB
+# gtk2                      7.8 MB
+# librsvg                   6.8 MB
+# p11-kit                   4.7 MB
+# libcups                   4.5 MB
+# pywavelets                3.7 MB
+# x265                      3.4 MB
+# hdf5                      3.3 MB
+# imageio                   3.3 MB
+# => TOTAL: 1037 MB
+mamba install -y gdown gensim geopy glob2 google-cloud-firestore google-cloud-storage google-colab google-crc32c graphviz grpcio gym h5py httplib2 hyperopt idna imbalanced-learn imgaug inflect intel-openmp ipykernel ipywidgets
+# => TOTAL: 1 MB
+mamba install -y Jinja2 jsonschema jupyter_core jupyterlab_widgets keras kiwisolver korean_lunar_calendar locket
+# => TOTAL: 1 MB
+mamba install -y miniKanren mistune mlxtend more-itertools mpmath multitasking murmurhash natsort nbconvert nltk osqp
+# scipy                    27.5 MB
+# bokeh                    13.9 MB
+# panel                    12.3 MB
+# statsmodels              11.7 MB
+# numpy                     5.8 MB
+# graphviz                  3.1 MB
+# tangled-up-in-unicode     3.0 MB
+# => TOTAL: 265 MB
+mamba install -y pandas-profiling pandocfilters panel partd pathy pexpect plotly pluggy preshed prometheus_client proto-plus ptyprocess pyarrow pydotplus PyDrive pyemd pyerfa pylev PyMeeus PyOpenGL pyparsing pysimdjson PySocks pytest python-dateutil python-slugify python-utils rsa
+# cudnn                   648.4 MB
+# tensorflow-base         395.8 MB
+# nccl                    152.2 MB
+# tensorboard               5.7 MB
+# tensorboard-data-server   3.7 MB
+# => TOTAL: 2830 MB
+
+# Download : 45 MB / Install : 145 MB
+mamba install -y numpy scipy
+mamba install -y sklearn-pandas snowballstemmer pytables tabulate tensorflow-hub textblob tweepy wordcloud xlrd yarl yfinance
+# => TOTAL: 1 MB 
+mamba install -y -c powerai dopamine-rl
+# pytorch                  85.6 MB
+# torchaudio                6.7 MB
+# torchvision               6.7 MB
+# torchtext                 5.8 MB
+# CUDA 11.7
+# libcusparse-dev                                    324.5 MB
+# libcusparse                                        158.5 MB
+# libcublas-dev                                      310.8 MB
+# libcublas                                          300.0 MB
+# libcufft-dev                                       206.8 MB
+# libcufft                                            98.1 MB
+# libnpp-dev                                         132.8 MB
+# libnpp                                             135.6 MB
+# libcusolver-dev                                     58.6 MB
+# libcusolver                                         82.6 MB
+# libcurand                                           54.2 MB
+# nsight-compute                                     801.2 MB
+# cuda-nvvp                                          119.9 MB
+# cuda-nsight                                        119.1 MB
+# cuda-nvdisasm                                       50.2 MB
+# gds-tools                                           42.9 MB
+# cuda-cupti                                          24.0 MB
+# cuda-nvrtc-dev                                      17.8 MB
+# cuda-sanitizer-api                                  17.4 MB
+# cuda-gdb                                             5.5 MB
+# cuda-demo-suite                                      5.2 MB
+# cuda-nvprof                                          4.6 MB
+# => TOTAL: 5594 MB
+
+mamba install -y pytorch torchvision torchaudio cpuonly -c pytorch
+
+# Download : 1802 MB / Install : 3173 MB
+pip install https://download.pytorch.org/whl/cu117/torch-1.13.1%2Bcu117-cp310-cp310-linux_x86_64.whl
+
+# Download : 1802 MB / Install : yy MB
+mamba install -y -c pytorch torchaudio torchtext torchvision
+
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117
+
+# opencv-python-headless   44.1 MB
+# cython-blis               9.4 MB
+# pyqt                      6.5 MB
+# spacy                     5.2 MB
+# => TOTAL: 232 MB
+mamba install -y -c fastai fastai opencv-python-headless
+# llvmlite                 34.6 MB
+# numba                     3.5 MB
+# resampy                   3.1 MB
+# => TOTAL: 130 MB
+pip install --no-input community daft firebase-admin fix-yahoo-finance google kapre keras-vis okgrade prefetch-generator tensorflow-gcs-config torchsummary

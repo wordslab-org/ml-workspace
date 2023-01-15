@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: jupyterlab
-          image: "ubuntu:22.04"
+          image: "nvidia/cuda:11.8.0-base-ubuntu22.04"
           imagePullPolicy: IfNotPresent
           command:
             - "sleep"
@@ -81,12 +81,12 @@ spec:
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: "compute,utility"
             - name: NVIDIA_REQUIRE_CUDA
-              value: "cuda>=11.7"
+              value: "cuda>=11.8"
             - name: RESTARTABLE
               value: "yes"
             # To enable updating the image: https://github.com/kubernetes/kubernetes/issues/33664
             - name: RELEASE_DATE
-              value: "12/28/2022"
+              value: "15/01/2023"
           ports:
             - name: http
               containerPort: 8080
