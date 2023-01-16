@@ -5,6 +5,9 @@ apt-get update
 # net-tools : NET-3 networking toolkit
 apt-get install -y --no-install-recommends net-tools
 
+# dsnutils : various client programs related to DNS
+apt-get install -y --no-install-recommends dnsutils
+
 # libcurl4 : easy-to-use client-side URL transfer library (OpenSSL flavour)
 apt-get install -y --no-install-recommends libcurl4
 

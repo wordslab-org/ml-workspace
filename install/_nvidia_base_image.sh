@@ -16,7 +16,7 @@ apt-get update
 apt-get install -y --no-install-recommends gnupg2 curl ca-certificates 
 curl -fsSLO https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/${NVARCH}/cuda-keyring_1.0-1_all.deb
 dpkg -i cuda-keyring_1.0-1_all.deb
-apt-get purge --autoremove -y curl
+#apt-get purge --autoremove -y curl
 rm cuda-keyring_1.0-1_all.deb
 rm -rf /var/lib/apt/lists/*
 

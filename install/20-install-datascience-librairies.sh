@@ -18,94 +18,131 @@ mamba install -y -c fastai nbdev
 
 # We want to install Pytorch and Tensorflow in the same environment
 # - Pytorch requires cuda 11.6 and the full cuda package (> 5 GB)
-#   >> Example install from Huggingface
-#   FROM nvidia/cuda:11.6.1-base-ubuntu20.04
-#   - nvidia::cudatoolkit=11.6
-#   - pytorch::pytorch=1.13.0=py3.9_cuda11.6*
 # - Tensorflow requires cuda 11.2 and only cudatoolkit and cudnn (3 GB)
-#   >> Example install from Huggingface
-#   FROM nvidia/cuda:11.2.2-base-ubuntu20.04
-#   export CONDA_OVERRIDE_CUDA="11.2"
-#   - nvidia::cudatoolkit=11.2
-#   - tensorflow=2.9.1=*cuda112*py39*
 
 # The installation setup below is designed to avoid the cuda version conflict
 # => we leverage the recent (2022) conda-forge builds of both frameworks
 # https://conda-forge.org/blog/posts/2021-11-03-tensorflow-gpu/
 # "... the “11.2” builds are compatible with all cudatoolkits>=11.2 ..."
+
 # Here is how to force a GPU version install with conda even on a CPU machine :
 # CONDA_CUDA_OVERRIDE="11.2" mamba install tensorflow cudatoolkit>=11.2 -c conda-forge
 # You could ensure you get a specific build of tensorflow by appending the package name like: tensorflow==2.7.0=cuda112*
 
+# https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-virtual.html
 export CONDA_OVERRIDE_CUDA="11.8"
 
-# 1. Install a self-contained Pytorch version with pip
-# -> the cuda librairies are private and directly stored in a ./lib subdirectory of the package
-# -> dependencies: numpy, pillow 9.4
-# (download: 1851 MB, install: 3326 MB)
+# NVIDIA CUDA toolkit: high performance GPU-accelerated applications
+# (download: 1467 MB, install: 3440 MB)
+mamba install -y -c conda-forge cudatoolkit=11.8.0 cudnn=8.4.1.50 nccl=2.14.3.1
 
+# Intel Math Kernel Library: fastest math library for Intel-based systems
+# (download: 173 MB, install: 785 MB)
+mamba install -y -c conda-forge mkl=2022.2.1
+
+# MAGMA: dense linear algebra library similar to LAPACK but for heterogeneous/hybrid architectures
+# (download: 255 MB, install: 454 MB)
+mamba install -y -c conda-forge magma=2.6.2
+
+# numpy: fundamental package for scientific computing with Python
+# scipy: fundamental algorithms for scientific computing in Python
+# (download: 31 MB, install: 103 MB)
+mamba install -y -c conda-forge numpy=1.24.1 scipy=1.10.0
+
+# PyTorch: machine learning framework that accelerates the path from research prototyping to production deployment
+# (download: 346 MB, install: 1155 MB)
 mamba install -y -c conda-forge pytorch=1.13.0=cuda112*py310*
 
-# OLD: pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117
+# TensorFlow: end-to-end machine learning platform, solutions to accelerate machine learning tasks at every stage of your workflow
+# (download : 480 MB, install: 1250 MB)
+mamba install -y -c conda-forge tensorflow=2.11.0=cuda112*py310*
 
-# 2. Install Tensorflow and its cuda dependencies with conda
-# -> nvidia cuda: cudatoolkit 11.8, cudnn 8.4, nccl 2.14
-# -> dependencies: numpy 1.24, scipy 1.10, hdf5 1.12
-# (download : 2 GB, install: 5081 MB)
+# Suppress annoying Tensorflow INFO messages
+export TF_CPP_MIN_LOG_LEVEL=1
 
-mamba install -y -c conda-forge tensorflow=2.10.0=cuda112*py310*
-# Note: we install version 2.10 and not 2.11 because of this issue https://github.com/tensorflow/tensorflow/issues/58681
+# JAX: autograd and XLA, brought together for high-performance machine learning research.
+# (download : 45 MB, install: 197 MB)
+mamba install -y -c conda-forge jaxlib=0.4.1=cuda112*py310* jax=0.4.1
 
-# OLD: mamba install -y -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
-# OLD: pip install tensorflow==2.10
+# ERROR: Couldn't invoke ptxas --version
+# SOLUTION: apt install nvidia-cuda-toolkit
+# => /usr/bin/ptxas
+
+# CuPy: NumPy/SciPy-compatible Array Library for GPU-accelerated Computing
+# (download : 36 MB, install: 118 MB)
+mamba install -y -c conda-forge cupy=11.4.0=py310h9216885_0
 
 # dask
-# feather-format
-# numba
-# numexpr
+# onnx
 
 # -- Training and Models --
 
+# (PyTorch)
 # fastai simplifies training fast and accurate neural nets using modern best practices
-# -> dependencies: pandas 1.5.2, scikit-learn 1.2.0, spacy 3.4.4
-# (download : 107 MB, install: 355 MB)
-mamba install -y -c conda-forge fastai opencv-python
+# - matplotlib      3.6.2
+# - pandas          1.5.2
+# - opencv-python   4.7.0
+# - pillow          9.4.0
+# - scikit-learn    1.2.0
+# - spacy           3.4.4
+# - torchvision     0.14.0
+# (download : 325 MB, install: 1092 MB)
+mamba install -y -c fastai fastai=2.7.10 opencv-python-headless=4.7.0.68
 
+# (PyTorch)
+# PyTorch Lightning. The ultimate PyTorch research framework. Scale your models, without the boilerplate.
+# (download : 1 MB, install: 6 MB)
+mamba install -y -c conda-forge pytorch-lightning=1.8.1
+
+# (TensorFlow)
+# Keras covers every step of the machine learning workflow, from data management to hyperparameter training to deployment solutions
+# -> installed with tensorflow
+
+# (JAX)
+# Flax is a high-performance neural network library for JAX that is designed for flexibility
+# (download : 1 MB, install: 7 MB)
+mamba install -y -c conda-forge flax=0.6.1
+
+# (CuPy)
 # spacy Industrial-Strength Natural Language Processing
 # -> dependencies: cupy-cuda11x 11.4
-# (download : 118 MB, install: 245 MB)
-pip install -U 'spacy[cuda-autodetect]'
+# -> installed with fastai
 python -m spacy download en_core_web_sm
 
+# ------ install below with conda ------
+
+# (Pytorch and TensorFlow and JAX)
 # huggingface The AI community
-# (download : 16 MB, install: 180 MB)
 # timm is a library containing SOTA computer vision models
-pip install timm
+mamba install -y -c conda-forge timm=0.6.12
 # transformers provides APIs and tools to easily download and train state-of-the-art pretrained models
-pip install datasets transformers[sklearn,sentencepiece,audio,vision] accelerate
+# (download : 60 MB, install: 236 MB)
+mamba install -y -c conda-forge datasets=2.7.1 transformers=4.24.0 accelerate=0.15.0
 # diffusers provides pretrained vision and audio diffusion models
-pip install diffusers["torch"]
+mamba install -y -c conda-forge diffusers=0.11.1
 
 # Tabular data
+# - scikit-learn (installed with fastai) 
 # - xgboost Optimized distributed gradient boosting library
 # - lightgbm is a gradient boosting framework that uses tree based learning algorithms
-# (download : 195 MB, install: 277 MB)
-pip install xgboost lightgbm
+# (download : 172 MB, install: 277 MB)
+mamba install -y -c conda-forge xgboost=1.7.1 lightgbm=3.3.4
 
 # Datasets
 # kaggle Your Machine Learning and Data Science Community
-pip install kaggle
+mamba install -y -c conda-forge kaggle=1.5.12
 
 # -- APIs and User Interfaces --
 
 # (download : 24 MB, install: 102 MB)
 # fastapi is a modern, fast (high-performance), web framework for building APIs with Python 
-pip install uvicorn[standard] fastapi
+mamba install -y -c conda-forge uvicorn=0.20.0 fastapi=0.89.1
 # gradio is the fastest way to demo your machine learning model with a friendly web interface 
-pip install gradio
+pip install gradio==3.16.2
 
 # -- Images and sound --
 
+# feather-format
 # albumentations
 
 # -- Vizualization --
