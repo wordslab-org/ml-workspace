@@ -1,10 +1,10 @@
 ind: "PersistentVolumeClaim"
 apiVersion: "v1"
 metadata:
-  name: ml-workspace-test
+  name: wordslab-workspace
   labels:
-    app.kubernetes.io/name: jupyterlab
-    app.kubernetes.io/instance: wordslab-notebook
+    app.kubernetes.io/name: ml-workspace
+    app.kubernetes.io/instance: wordslab-workspace
 spec:
   accessModes:
     - "ReadWriteOnce"
@@ -16,10 +16,10 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ml-workspace-test
+  name: wordslab-workspace
   labels:
-    app.kubernetes.io/name: jupyterlab
-    app.kubernetes.io/instance: wordslab-notebook
+    app.kubernetes.io/name: ml-workspace
+    app.kubernetes.io/instance: wordslab-workspace
 spec:
   entryPoints:
     - web
@@ -27,16 +27,16 @@ spec:
   - match: PathPrefix(`/workspace`)
     kind: Rule
     services:
-    - name: ml-workspace-test
+    - name: wordslab-workspace
       port: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ml-workspace-test
+  name: wordslab-workspace
   labels:
-    app.kubernetes.io/name: jupyterlab
-    app.kubernetes.io/instance: wordslab-notebook
+    app.kubernetes.io/name: ml-workspace
+    app.kubernetes.io/instance: wordslab-workspace
 spec:
   type: ClusterIP
   ports:
@@ -45,30 +45,30 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: jupyterlab
-    app.kubernetes.io/instance: wordslab-notebook
+    app.kubernetes.io/name: ml-workspace
+    app.kubernetes.io/instance: wordslab-workspace
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-workspace-test
+  name: wordslab-workspace
   labels:
-    app.kubernetes.io/name: jupyterlab
-    app.kubernetes.io/instance: wordslab-notebook
+    app.kubernetes.io/name: ml-workspace
+    app.kubernetes.io/instance: wordslab-workspace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: jupyterlab
-      app.kubernetes.io/instance: wordslab-notebook
+      app.kubernetes.io/name: ml-workspace
+      app.kubernetes.io/instance: wordslab-workspace
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: jupyterlab
-        app.kubernetes.io/instance: wordslab-notebook
+        app.kubernetes.io/name: ml-workspace
+        app.kubernetes.io/instance: wordslab-workspace
     spec:
       containers:
-        - name: jupyterlab
+        - name: ml-workspace
           image: "nvidia/cuda:11.8.0-base-ubuntu22.04"
           imagePullPolicy: IfNotPresent
           command:
@@ -118,6 +118,6 @@ spec:
             medium: Memory
         - name: data
           persistentVolumeClaim:
-            claimName: ml-workspace-test
+            claimname: wordslab-workspace
 
 # kubectl exec -it ml-workspace-test-7cb4d95c77-69dfm -- /bin/bash
