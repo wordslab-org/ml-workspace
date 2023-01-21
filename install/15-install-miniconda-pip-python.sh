@@ -2,24 +2,21 @@
 # https://github.com/LukasMasuch
 apt-get update
 
-# Install Miniconda: https://repo.continuum.io/miniconda/
+# --- versions ---
 
-export CONDA_ROOT=/opt/conda
-export CONDA_DIR=/opt/conda # CONDA_DIR is deprecated and should be removed in the future
+# https://repo.anaconda.com/miniconda/
+PY_VERSION="py310"
+MINICONDA_VERSION=$CONDA_VERSION
+MINICONDA_MD5="e01420f221a7c4c6cde57d8ae61d24b5"
 
-export PYTHON_VERSION="3.10.8"
-export CONDA_PYTHON_DIR=${CONDA_ROOT}/lib/python3.10
+# --- end of versions ---
 
-export CONDA_VERSION=22.11.1-1
-export MINICONDA_VERSION=22.11.1-1
-export MINICONDA_MD5=e01420f221a7c4c6cde57d8ae61d24b5
+# Install Miniconda: https://repo.anaconda.com/miniconda/
 
-wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py310_${CONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh
+wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-${PY_VERSION}_${MINICONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh
 echo "${MINICONDA_MD5} *miniconda.sh" | md5sum -c - 
 /bin/bash ~/miniconda.sh -b -p $CONDA_ROOT
 rm ~/miniconda.sh
-
-export PATH=$CONDA_ROOT/bin:$PATH
 
 # Configure conda
 $CONDA_ROOT/bin/conda config --system --add channels conda-forge
@@ -35,7 +32,7 @@ $CONDA_ROOT/bin/conda update -y setuptools
 # Also provides helpful tools to constrain or pin versions in recipes.
 $CONDA_ROOT/bin/conda install -y conda-build
 
-# Update selected packages and install python 3.10.x
+# Update selected packages and install python
 $CONDA_ROOT/bin/conda install -y --update-all python=$PYTHON_VERSION
 
 # Link Conda
@@ -53,9 +50,6 @@ $CONDA_ROOT/bin/conda clean -y --packages
 $CONDA_ROOT/bin/conda clean -y -a -f
 $CONDA_ROOT/bin/conda build purge-all
 
-# Add conda librairies to LD_LIBRARY_PATH
-export ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_ROOT/lib
-
 # Add mamba as a faster conda alternative
 conda install -y -c conda-forge mamba
 
@@ -71,17 +65,10 @@ git clone https://github.com/pyenv/pyenv-which-ext.git $RESOURCES_PATH/.pyenv/pl
 # Required by pyenv
 apt-get install -y --no-install-recommends libffi-dev
 
-# Add pyenv to path
-export PATH=$RESOURCES_PATH/.pyenv/shims:$RESOURCES_PATH/.pyenv/bin:$PATH
-export PYENV_ROOT=$RESOURCES_PATH/.pyenv
-
 # Install pipx
 # pipx is a tool to help you install and run end-user applications written in Python
 pip install pipx
 python -m pipx ensurepath
-
-# Update PATH
-export PATH=$HOME/.local/bin:$PATH
 
 # Install supervisor for process supervision
 # Create sshd run directory - required for starting process via supervisor
@@ -96,8 +83,6 @@ mkdir -p /var/log/supervisor/
 # Install crontab (used by conatiner startup script)
 mamba install -y -c conda-forge python-crontab
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

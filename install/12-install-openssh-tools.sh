@@ -26,8 +26,6 @@ chmod 700 $HOME/.ssh
 printenv >> $HOME/.ssh/environment 
 chmod -R a+rwx /usr/local/bin/ 
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

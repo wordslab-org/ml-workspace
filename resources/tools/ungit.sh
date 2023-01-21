@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# --- versions ---
+
+# https://www.npmjs.com/package/ungit
+UNGIT_VERSION="1.5.22"
+
+# --- end of versions ---
+
 # Stops script execution if a command has an error
 set -e
 
@@ -16,7 +23,7 @@ done
 
 if ! hash ungit 2>/dev/null; then
     echo "Installing Ungit. Please wait..."
-    npm install -g ungit@1.5.22
+    npm install -g ungit@${UNGIT_VERSION}
 else
     echo "Ungit is already installed"
 fi

@@ -31,8 +31,6 @@ cp ~/ml-workspace/resources/tools/filebrowser.sh $RESOURCES_PATH/tools/filebrows
 cp ~/ml-workspace/resources/tools/firefox.sh $RESOURCES_PATH/tools/firefox.sh
 /bin/bash $RESOURCES_PATH/tools/firefox.sh --install
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

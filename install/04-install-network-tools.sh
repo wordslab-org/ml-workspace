@@ -41,8 +41,6 @@ apt-get install -y --no-install-recommends rsync
 # libzmq3-dev : lightweight messaging kernel (development files)
 apt-get install -y --no-install-recommends libzmq3-dev
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

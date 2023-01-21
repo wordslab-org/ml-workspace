@@ -32,8 +32,6 @@ apt-get install -y --no-install-recommends unixodbc
 # unixodbc-dev : ODBC libraries for UNIX (development files)
 apt-get install -y --no-install-recommends unixodbc-dev
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

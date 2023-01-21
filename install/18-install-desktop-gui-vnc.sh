@@ -2,6 +2,21 @@
 # https://github.com/LukasMasuch
 apt-get update
 
+# --- versions ---
+
+# https://github.com/variar/klogg/releases
+KLOGG_VERSION_PATH="v22.06/klogg-22.06.0.1289"
+
+# https://sourceforge.net/projects/tigervnc/files/stable/
+VNC_VERSION_PATH="1.12.0/tigervnc-1.12.0.x86_64"
+
+# Before updating the noVNC version, we need to make sure that our monkey patching scripts still work!!
+# https://github.com/novnc/noVNC/releases
+NOVNC_VERSION="1.2.0"
+WEBSOCKIFY_VERSION="0.9.0"
+
+# --- end of versions ---
+
 # Install xfce4 & gui tools
 apt-get install -y --no-install-recommends xfce4
 apt-get install -y --no-install-recommends gconf2
@@ -20,7 +35,7 @@ apt-get install -y --no-install-recommends font-manager
 apt-get install -y thunar-vcs-plugin
 # Streaming text editor for large files - klogg is alternative to glogg
 apt-get install -y --no-install-recommends libqt5concurrent5 libqt5widgets5 libqt5xml5
-wget --no-verbose https://github.com/variar/klogg/releases/download/v22.06/klogg-22.06.0.1289-Linux-amd64-jammy.deb -O $RESOURCES_PATH/klogg.deb
+wget --no-verbose https://github.com/variar/klogg/releases/download/${KLOGG_VERSION_PATH}-Linux-amd64-jammy.deb -O $RESOURCES_PATH/klogg.deb
 dpkg -i $RESOURCES_PATH/klogg.deb
 rm $RESOURCES_PATH/klogg.deb
 # Disk Usage Visualizer
@@ -52,28 +67,21 @@ apt-get purge -y pm-utils xscreensaver*
 # Large package: gnome-user-guide 50MB app-install-data 50MB
 apt-get remove -y app-install-data gnome-user-guide
 
-# Add the defaults from /lib/x86_64-linux-gnu, otherwise lots of no version errors
-# cannot be added above otherwise there are errors in the installation of the gui tools
-# Call order: https://unix.stackexchange.com/questions/367600/what-is-the-order-that-linuxs-dynamic-linker-searches-paths-in
-export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$CONDA_ROOT/lib
-
 # Install VNC
 # required for websockify
 # apt-get install -y python-numpy 
 cd ${RESOURCES_PATH}
 # Tiger VNC
-wget -qO- https://sourceforge.net/projects/tigervnc/files/stable/1.12.0/tigervnc-1.12.0.x86_64.tar.gz/download | tar xz --strip 1 -C /
+wget -qO- https://sourceforge.net/projects/tigervnc/files/stable/${VNC_VERSION_PATH}.tar.gz/download | tar xz --strip 1 -C /
 # Install websockify
 mkdir -p ./novnc/utils/websockify
 # Before updating the noVNC version, we need to make sure that our monkey patching scripts still work!!
-wget -qO- https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar xz --strip 1 -C ./novnc
-wget -qO- https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar xz --strip 1 -C ./novnc/utils/websockify
+wget -qO- https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.tar.gz | tar xz --strip 1 -C ./novnc
+wget -qO- https://github.com/novnc/websockify/archive/v${WEBSOCKIFY_VERSION}.tar.gz | tar xz --strip 1 -C ./novnc/utils/websockify
 chmod +x -v ./novnc/utils/*.sh
 # create user vnc directory
 mkdir -p $HOME/.vnc
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

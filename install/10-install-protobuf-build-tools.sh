@@ -29,8 +29,6 @@ apt-get install -y --no-install-recommends cmake
 # google-perftools : command line utilities to analyze the performance of C++ programs
 apt-get install -y --no-install-recommends google-perftools
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

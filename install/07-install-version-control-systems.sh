@@ -22,8 +22,6 @@ chmod -R a+rwx /usr/local/bin/
 # configure dynamic linker run-time bindings
 ldconfig
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

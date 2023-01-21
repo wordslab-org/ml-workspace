@@ -35,8 +35,6 @@ apt-get install -y --no-install-recommends liblzma-dev
 # zlib1g-dev : compression library - development
 apt-get install -y --no-install-recommends zlib1g-dev
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

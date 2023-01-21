@@ -1,3 +1,19 @@
+# Set environment variables for cold start
+if [ -z ${WORKSPACE_BASE_URL+x} ];
+then
+    echo "Environment variables already set"
+else
+    echo "Setting environment variables ..."
+    . ~/ml-workspace/install/01-ENV.sh
+    . ~/ml-workspace/install/14-ENV.sh
+    . ~/ml-workspace/install/15-ENV.sh
+    . ~/ml-workspace/install/16-ENV.sh
+    . ~/ml-workspace/install/17-ENV.sh
+    . ~/ml-workspace/install/18-post-ENV.sh
+    . ~/ml-workspace/install/22-post-ENV.sh
+    . ~/ml-workspace/install/23-ENV.sh
+fi
+
 # ARG ARG_BUILD_DATE="unknown"
 # ARG ARG_VCS_REF="unknown"
 # ARG ARG_WORKSPACE_VERSION="unknown"

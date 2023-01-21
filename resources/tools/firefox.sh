@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# --- versions ---
+
+# https://www.mozilla.org/en/firefox/organizations/notes/
+# http://releases.mozilla.org/pub/firefox/releases/
+FIREFOX_VERSION="102.6.0esr"
+
+# --- end of versions ---
+
 # Stops script execution if a command has an error
 set -e
 
@@ -55,7 +63,7 @@ function instFF() {
 
 if ! hash firefox 2>/dev/null; then
     echo "Installing Firefox. Please wait..."
-    instFF '102.6.0esr' '/usr/lib/firefox'
+    instFF '${FIREFOX_VERSION}' '/usr/lib/firefox'
 else
     echo "Firefox is already installed"
 fi

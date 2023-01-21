@@ -5,7 +5,6 @@ apt-get update
 ### JUPYTER ###
 
 # Install Jupyter Notebook and Jupyterlab
-# (download: ?? MB, install: ?? MB)
 mamba install -y --update-all ipython notebook jupyterlab jupyterhub
 # Convert Notebooks to other formats
 mamba install -y nbconvert
@@ -146,8 +145,6 @@ chsh -s $(which zsh) $NB_USER
 # Install sdkman - needs to be executed after zsh
 curl -s https://get.sdkman.io | bash
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

@@ -2,8 +2,6 @@
 # https://github.com/LukasMasuch
 apt-get update
 
-export NODEJS_VERSION=18
-
 # Install node.js
 # https://nodejs.org/en/about/releases/ use even numbered releases, i.e. LTS versions
 curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | sudo -E bash -
@@ -32,10 +30,6 @@ ln -s /usr/bin/npm /opt/node/bin/npm
 # Update all packages to latest version
 /usr/bin/npm update -g
 
-export PATH=/opt/node/bin:$PATH
-
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

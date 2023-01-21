@@ -1,8 +1,6 @@
 # https://github.com/ml-tooling/ml-workspace
 # https://github.com/LukasMasuch
 
-export DOTNET_VERSION="7.0"
-
 #.NET 6 is included in the Ubuntu 22.04 package manager feeds, but .NET 7 isn't.
 # To install .NET 7 you must use the Microsoft package feed. 
 # add the Microsoft package signing key to your list of trusted keys
@@ -17,15 +15,12 @@ apt-get install -y dotnet-sdk-${DOTNET_VERSION}
 
 # Install .NET Interactive - used to install a Jupyter .NET kernel
 dotnet tool install -g Microsoft.dotnet-interactive
-export PATH=$PATH:$HOME/.dotnet/tools/
 
-# Install the .NET kernel later by running the following:
+# Install the .NET kernel later with Jypter by running the following:
 # > dotnet interactive jupyter install
 # You can verify the installation by running the following:
 # > jupyter kernelspec list
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

@@ -41,8 +41,6 @@ apt-get install -y --no-install-recommends less
 # bash-completion : programmable completion for the bash shell
 apt-get install -y --no-install-recommends bash-completion
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

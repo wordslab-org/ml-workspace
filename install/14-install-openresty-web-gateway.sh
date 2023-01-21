@@ -2,13 +2,17 @@
 # https://github.com/LukasMasuch
 apt-get update
 
-export OPEN_RESTY_VERSION="1.21.4.1"
+# --- versions ---
+
+# https://openresty.org/en/download.html
+OPEN_RESTY_VERSION="1.21.4.1"
+
+# --- end of versions ---
 
 apt-get purge -y nginx nginx-common
 
 # libssl-dev : Secure Sockets Layer toolkit - development files
 apt-get install -y --no-install-recommends libssl-dev
-
 # libpcre required, otherwise you get a 'the HTTP rewrite module requires the PCRE library' error
 # libpcre3 : Old Perl 5 Compatible Regular Expression Library - runtime files
 apt-get install -y --no-install-recommends libpcre3
@@ -38,13 +42,9 @@ cd $RESOURCES_PATH
 rm -r $RESOURCES_PATH"/openresty" 
 chmod -R a+rwx $RESOURCES_PATH 
 
-export PATH=/usr/local/openresty/nginx/sbin:$PATH
-
 mkdir -p /etc/nginx/nginx_plugins
 cp -r ~/ml-workspace/resources/nginx/lua-extensions /etc/nginx/nginx_plugins
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

@@ -32,8 +32,6 @@ apt-get install -y --no-install-recommends software-properties-common
 # dpkg-sig : create and verify signatures on .deb-files
 apt-get install -y --no-install-recommends dpkg-sig
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

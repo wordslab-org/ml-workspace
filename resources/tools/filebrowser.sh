@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# --- versions ---
+
+# https://github.com/filebrowser/filebrowser/releases/
+FILEBROWSER_VERSION="2.23.0"
+
+# --- end of versions ---
+
 # Stops script execution if a command has an error
 set -e
 
@@ -18,7 +25,6 @@ if [ ! -f "/usr/local/bin/filebrowser"  ]; then
     echo "Installing Filebrowser. Please wait..."
     mkdir -p $RESOURCES_PATH/filebrowser
     cd $RESOURCES_PATH/filebrowser
-    FILEBROWSER_VERSION=2.23.0
     wget -q https://github.com/filebrowser/filebrowser/releases/download/v$FILEBROWSER_VERSION/linux-amd64-filebrowser.tar.gz -O ./filebrowser.tar.gz
     tar -xzf ./filebrowser.tar.gz
     chmod +x "./filebrowser"

@@ -14,8 +14,6 @@ apt-get install -y --no-install-recommends libxext-dev
 # libxrender1 : X Rendering Extension client library
 apt-get install -y --no-install-recommends libxrender1
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

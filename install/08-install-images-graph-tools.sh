@@ -26,8 +26,6 @@ apt-get install -y --no-install-recommends libglib2.0-0
 # fonts-liberation : Fonts with the same metrics as Times, Arial and Courier
 apt-get install -y --no-install-recommends fonts-liberation
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 

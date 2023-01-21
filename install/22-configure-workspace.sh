@@ -8,7 +8,6 @@ apt-get update
 cp ~/ml-workspace/resources/docker-entrypoint.py $RESOURCES_PATH/
 cp ~/ml-workspace/resources/5xx.html $RESOURCES_PATH/
     
-
 # Copy scripts into workspace
 cp -r ~/ml-workspace/resources/scripts $RESOURCES_PATH/scripts
 
@@ -40,11 +39,6 @@ cp -r ~/ml-workspace/resources/novnc/ $RESOURCES_PATH/novnc/
 ## create index.html to forward automatically to `vnc.html`
 # Needs to be run after patching
 ln -s $RESOURCES_PATH/novnc/vnc.html $RESOURCES_PATH/novnc/index.html
-
-# Basic VNC Settings - no password
-export VNC_PW=vncpassword
-export VNC_RESOLUTION=1600x900
-export VNC_COL_DEPTH=24
 
 # Add tensorboard patch - use tensorboard jupyter plugin instead of the actual tensorboard magic
 cp ~/ml-workspace/resources/jupyter/tensorboard_notebook_patch.py $CONDA_PYTHON_DIR/site-packages/tensorboard/notebook.py
@@ -131,59 +125,6 @@ chmod 1777 /tmp
 # TODO: does 1777 work fine? chmod a+rwx /tmp
 # Set /workspace as default directory to navigate to as root user
 echo 'cd '$WORKSPACE_HOME >> $HOME/.bashrc
-
-# MKL and Hardware Optimization
-# Fix problem with MKL with duplicated libiomp5: https://github.com/dmlc/xgboost/issues/1715
-# Alternative - use openblas instead of Intel MKL: conda install -y nomkl
-# http://markus-beuckelmann.de/blog/boosting-numpy-blas.html
-# MKL:
-# https://software.intel.com/en-us/articles/tips-to-improve-performance-for-popular-deep-learning-frameworks-on-multi-core-cpus
-# https://github.com/intel/pytorch#bkm-on-xeon
-# http://astroa.physics.metu.edu.tr/MANUALS/intel_ifc/mergedProjects/optaps_for/common/optaps_par_var.htm
-# https://www.tensorflow.org/guide/performance/overview#tuning_mkl_for_the_best_performance
-# https://software.intel.com/en-us/articles/maximize-tensorflow-performance-on-cpu-considerations-and-recommendations-for-inference
-export KMP_DUPLICATE_LIB_OK="True"
-# Control how to bind OpenMP* threads to physical processing units # verbose
-export KMP_AFFINITY="granularity=fine,compact,1,0"
-export KMP_BLOCKTIME=0
-# KMP_BLOCKTIME="1" -> is not faster in my tests
-# TensorFlow uses less than half the RAM with tcmalloc relative to the default. - requires google-perftools
-# Too many issues: LD_PRELOAD="/usr/lib/libtcmalloc.so.4"
-# TODO set PYTHONDONTWRITEBYTECODE
-# TODO set XDG_CONFIG_HOME, CLICOLOR?
-# https://software.intel.com/en-us/articles/getting-started-with-intel-optimization-for-mxnet
-# KMP_AFFINITY=granularity=fine, noduplicates,compact,1,0
-# MXNET_SUBGRAPH_BACKEND=MKLDNN
-# TODO: check https://github.com/oneapi-src/oneTBB/issues/190
-# TODO: https://github.com/pytorch/pytorch/issues/37377
-# use omp
-export MKL_THREADING_LAYER=GNU
-# To avoid over-subscription when using TBB, let the TBB schedulers use Inter Process Communication to coordinate:
-export ENABLE_IPC=1
-# will cause pretty_errors to check if it is running in an interactive terminal
-export PYTHON_PRETTY_ERRORS_ISATTY_ONLY=1
-# TODO: evaluate - Deactivate hdf5 file locking
-export HDF5_USE_FILE_LOCKING=False
-
-# Set default values for environment variables
-export CONFIG_BACKUP_ENABLED="true"
-export SHUTDOWN_INACTIVE_KERNELS="false"
-export SHARED_LINKS_ENABLED="true"
-export AUTHENTICATE_VIA_JUPYTER="false"
-export DATA_ENVIRONMENT=$WORKSPACE_HOME"/environment"
-export WORKSPACE_BASE_URL="/"
-export INCLUDE_TUTORIALS="true"
-# Main port used for sshl proxy -> can be changed
-export WORKSPACE_PORT="8080"
-# Set zsh as default shell (e.g. in jupyter)
-export SHELL="/usr/bin/zsh"
-# Fix dark blue color for ls command (unreadable):
-# https://askubuntu.com/questions/466198/how-do-i-change-the-color-for-directories-with-ls-in-the-console
-# USE default LS_COLORS - Dont set LS COLORS - overwritten in zshrc
-# LS_COLORS=""
-# set number of threads various programs should use, if not-set, it tries to use all
-# this can be problematic since docker restricts CPUs by stil showing all
-export MAX_NUM_THREADS="auto"
 
 ### END CONFIGURATION ###
 

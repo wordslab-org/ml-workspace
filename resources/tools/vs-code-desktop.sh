@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# --- versions ---
+
+# https://code.visualstudio.com/download (.deb x64)
+VSCODE_VERSION_PATH="https://az764295.vo.msecnd.net/stable/97dec172d3256f8ca4bfb2143f3f76b503ca0534/code_1.74.3-1673284829_amd64.deb"
+
+# --- end of versions ---
+
 # Stops script execution if a command has an error
 set -e
 
@@ -15,7 +22,7 @@ done
 if [ ! -f "/usr/share/code/code" ]; then
     echo "Installing VS Code. Please wait..."
     cd $RESOURCES_PATH
-    wget -q https://az764295.vo.msecnd.net/stable/97dec172d3256f8ca4bfb2143f3f76b503ca0534/code_1.74.3-1673284829_amd64.deb -O ./vscode.deb
+    wget -q $VSCODE_VERSION_PATH -O ./vscode.deb
     apt-get update
     apt-get install -y ./vscode.deb
     rm ./vscode.deb

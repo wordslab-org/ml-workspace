@@ -32,8 +32,6 @@ apt-get install -y --no-install-recommends parallel
 # tree : displays an indented directory tree, in color
 apt-get install -y --no-install-recommends tree
 
-# Fix permissions
-fix-permissions.sh $HOME
 # Cleanup
 clean-layer.sh
 
