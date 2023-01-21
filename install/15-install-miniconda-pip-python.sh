@@ -93,6 +93,9 @@ pipx inject supervisor supervisor-stdout
 # supervisor needs this logging path
 mkdir -p /var/log/supervisor/
 
+# Install crontab (used by conatiner startup script)
+mamba install -c conda-forge python-crontab
+
 # Fix permissions
 fix-permissions.sh $HOME
 # Cleanup
