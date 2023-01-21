@@ -62,6 +62,7 @@ cp ~/ml-workspace/resources/jupyter/ipython_config.py /etc/ipython/ipython_confi
 # Branding of various components
 
 # Jupyter Branding
+mkdir -p $CONDA_PYTHON_DIR/site-packages/notebook/static/base/images/
 cp -f $RESOURCES_PATH/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
 cp -f $RESOURCES_PATH/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
 cp -f $RESOURCES_PATH/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
