@@ -67,9 +67,9 @@ cat $HOME/.jupyter/nbconfig/notebook.json | jq '.toc2={"moveMenuLeft": false,"wi
 jupyter nbextension install https://github.com/drillan/jupyter-black/archive/master.zip --sys-prefix
 jupyter nbextension enable jupyter-black-master/jupyter-black --sys-prefix
 # Install and activate what if tool
-pip install witwidget
-jupyter nbextension install --py --symlink --sys-prefix witwidget
-jupyter nbextension enable --py --sys-prefix witwidget
+# [removed - install tensorflow as dependency] pip install witwidget
+# jupyter nbextension install --py --symlink --sys-prefix witwidget
+# jupyter nbextension enable --py --sys-prefix witwidget
 # Activate qgrid
 # jupyter nbextension enable --py --sys-prefix qgrid
 # TODO: Activate Colab support

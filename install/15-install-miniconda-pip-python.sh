@@ -94,7 +94,7 @@ pipx inject supervisor supervisor-stdout
 mkdir -p /var/log/supervisor/
 
 # Install crontab (used by conatiner startup script)
-mamba install -c conda-forge python-crontab
+mamba install -y -c conda-forge python-crontab
 
 # Fix permissions
 fix-permissions.sh $HOME
