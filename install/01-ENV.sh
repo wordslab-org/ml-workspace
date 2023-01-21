@@ -16,8 +16,3 @@ export DEBIAN_FRONTEND="noninteractive"
 export RESOURCES_PATH="/resources"
 export SSL_RESOURCES_PATH="/resources/ssl"
 export WORKSPACE_HOME="/workspace"
-
-# Set locales
-export LC_ALL="en_US.UTF-8"
-export LANG="en_US.UTF-8"
-export LANGUAGE="en_US:en"

@@ -1,5 +1,6 @@
 . ~/ml-workspace/install/01-ENV.sh
 . ~/ml-workspace/install/01-init-environment.sh                 #   130 MB ->   130 MB
+. ~/ml-workspace/install/01-post-ENV.sh
 . ~/ml-workspace/install/02-init-package-install-build.sh       #   323 MB ->   453 MB
 . ~/ml-workspace/install/03-install-system-tools.sh             #    11 MB ->   465 MB
 . ~/ml-workspace/install/04-install-network-tools.sh            #    88 MB ->   553 MB

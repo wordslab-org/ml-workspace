@@ -118,6 +118,6 @@ spec:
             medium: Memory
         - name: data
           persistentVolumeClaim:
-            claimname: wordslab-workspace
+            claimName: wordslab-workspace
 
 # kubectl exec -it ml-workspace-test-7cb4d95c77-69dfm -- /bin/bash

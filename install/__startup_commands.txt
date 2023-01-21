@@ -4,11 +4,14 @@ cd C:\Users\laure\OneDrive\Dev\C#\wordslab-org\wordslab\wordslab.manager\bin\Rel
 wordslab host vm start test
 
 wsl -d wordslab-test-cluster
-vi ml-workspace.yaml [copy&paste C:\Users\laure\OneDrive\Dev\C#\wordslab-org\ml-workspace\install\ml-workspace.yaml]
+vi wordslab-workspace-deployment.yaml
+    :set paste
+    [copy&paste C:\Users\laure\OneDrive\Dev\C#\wordslab-org\ml-workspace\install\wordslab-workspace-deployment.yaml]
+    :set nopaste
 kubectl apply -f wordslab-workspace-deployment.yaml
 
 kubectl get pods
-kubectl exec -it wordslab-workspace-7cb4d95c77-d9dvn -- /bin/bash
+kubectl exec -it wordslab-workspace-5d6d4c655c-k486m -- /bin/bash
 
 apt update
 apt install -y git
@@ -18,5 +21,10 @@ git clone https://github.com/wordslab-org/ml-workspace.git
 [Invite de commandes 2]
 
 wsl -d wordslab-test-cluster
-kubectl get pod wordslab-workspace-7cb4d95c77-d9dvn -o json | grep containerID
+kubectl get pod wordslab-workspace-5d6d4c655c-k486m -o json | grep containerID
 k3s ctr snapshots usage -b | grep b412b54a11ce1c73f6cc99ef1c34762507b5f690d33bc79494ad55e738327c21
+
+[If needed to reset container]
+
+kubectl scale deployment wordslab-workspace --replicas=0
+kubectl scale deployment wordslab-workspace --replicas=1

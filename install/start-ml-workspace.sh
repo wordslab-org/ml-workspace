@@ -5,6 +5,7 @@ then
 else
     echo "Setting environment variables ..."
     . ~/ml-workspace/install/01-ENV.sh
+    . ~/ml-workspace/install/01-post-ENV.sh
     . ~/ml-workspace/install/14-ENV.sh
     . ~/ml-workspace/install/15-ENV.sh
     . ~/ml-workspace/install/16-ENV.sh
