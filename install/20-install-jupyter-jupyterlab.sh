@@ -4,6 +4,29 @@ apt-get update
 
 ### JUPYTER ###
 
+# Install Jupyter Notebook and Jupyterlab
+# (download: ?? MB, install: ?? MB)
+mamba install -y --update-all ipython notebook jupyterlab jupyterhub
+# Convert Notebooks to other formats
+mamba install -y nbconvert
+# Jupyter Widgets are interactive browser controls for Jupyter notebooks
+mamba install -y ipywidgets
+# CLI scripts for controlling clusters of IPython processes, built on the Jupyter protocol
+mamba install -y ipyparallel
+# Jupyter notebooks as Markdown documents, Julia, Python or R scripts
+mamba install -y jupytext
+# Simple Jupyter extension to show how much resources (RAM) your notebook is using
+mamba install -y jupyter-resource-usage
+# Matplotlib Jupyter Extension
+mamba install -y ipympl
+# Running IPython kernels through batch queues
+pip install remote_ikernel
+# A collection of Jupyter nbextensions
+mamba install -y jupyter_contrib_nbextensions
+# Diff and merge of Jupyter Notebooks
+mamba install -y nbdime 
+# TODO: jupyter-tensorboard version has a bug and hence does not support tensorboard 2.3 - 2.4 currently -> installed later
+
 cp ~/ml-workspace/resources/jupyter/start.sh /usr/local/bin/
 cp ~/ml-workspace/resources/jupyter/start-notebook.sh /usr/local/bin/
 cp ~/ml-workspace/resources/jupyter/start-singleuser.sh /usr/local/bin/
@@ -35,9 +58,6 @@ jupyter nbextension enable collapsible_headings/main --sys-prefix
 jupyter nbextension enable codefolding/main --sys-prefix
 # Disable pydeck extension, cannot be loaded (404)
 jupyter nbextension disable pydeck/extension
-# Install and activate Jupyter Tensorboard
-pip install --no-cache-dir git+https://github.com/InfuseAI/jupyter_tensorboard.git
-jupyter tensorboard enable --sys-prefix
 # TODO moved to configuration files = resources/jupyter/nbconfig Edit notebook config
 # echo '{"nbext_hide_incompat": false}' > $HOME/.jupyter/nbconfig/common.json
 cat $HOME/.jupyter/nbconfig/notebook.json | jq '.toc2={"moveMenuLeft": false,"widenNotebook": false,"skip_h1_title": false,"sideBar": true,"number_sections": false,"collapse_to_match_collapsible_headings": true}' > tmp.$$.json && mv tmp.$$.json $HOME/.jupyter/nbconfig/notebook.json
@@ -51,13 +71,16 @@ pip install witwidget
 jupyter nbextension install --py --symlink --sys-prefix witwidget
 jupyter nbextension enable --py --sys-prefix witwidget
 # Activate qgrid
-jupyter nbextension enable --py --sys-prefix qgrid
+# jupyter nbextension enable --py --sys-prefix qgrid
 # TODO: Activate Colab support
 # jupyter serverextension enable --py jupyter_http_over_ws
 # Activate Voila Rendering
 # currently not working jupyter serverextension enable voila --sys-prefix
 # Enable ipclusters
 ipcluster nbextension enable
+
+# Install the .NET kernel by running the following:
+dotnet interactive jupyter install
 
 # install jupyterlab
 # without es6-promise some extension builds fail
@@ -68,9 +91,6 @@ lab_ext_install='jupyter labextension install -y --debug-log-path=/dev/stdout --
 # jupyterlab installed in requirements section
 $lab_ext_install @jupyter-widgets/jupyterlab-manager
 $lab_ext_install @jupyterlab/toc
-# install temporarily from gitrepo due to the issue that jupyterlab_tensorboard does not work with 3.x yet as described here: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28#issuecomment-783594541
-#$lab_ext_install jupyterlab_tensorboard
-pip install git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 # install jupyterlab git
 # $lab_ext_install @jupyterlab/git
 pip install jupyterlab-git
@@ -78,7 +98,7 @@ pip install jupyterlab-git
 # For Matplotlib: https://github.com/matplotlib/jupyter-matplotlib
 #$lab_ext_install jupyter-matplotlib
 # Install jupyterlab language server support
-pip install jupyterlab-lsp==3.7.0 jupyter-lsp==1.3.0
+mamba install -y jupyterlab-lsp jupyter-lsp
 # $lab_ext_install install @krassowski/jupyterlab-lsp@2.0.8
 # For Plotly
 $lab_ext_install jupyterlab-plotly
@@ -132,4 +152,4 @@ fix-permissions.sh $HOME
 clean-layer.sh
 
 # Layer size: ?? MB 
-# Total size: ?? MB / 2817
+# Total size: ?? MB

@@ -17,7 +17,7 @@
 . ~/ml-workspace/install/17-install-dotnet-sdk.sh               # 2202 MB (1969 MB after dotnet-sdk)
 . ~/ml-workspace/install/18-install-desktop-gui-vnc.sh          # 2853 MB
 . ~/ml-workspace/install/19-install-web-tools.sh                # 3412 MB
-. ~/ml-workspace/install/20-install-datascience-librairies.sh   # 
-. ~/ml-workspace/install/21-install-jupyter-jupyterlab.sh
-. ~/ml-workspace/install/22-install-vscode-ide.sh
-. ~/ml-workspace/install/23-configure-workspace.sh
+. ~/ml-workspace/install/20-install-jupyter-jupyterlab.sh
+. ~/ml-workspace/install/21-install-vscode-ide.sh
+. ~/ml-workspace/install/22-configure-workspace.sh
+. ~/ml-workspace/install/23-install-datascience-librairies.sh   # 

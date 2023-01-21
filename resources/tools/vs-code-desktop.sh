@@ -15,7 +15,7 @@ done
 if [ ! -f "/usr/share/code/code" ]; then
     echo "Installing VS Code. Please wait..."
     cd $RESOURCES_PATH
-    wget -q https://az764295.vo.msecnd.net/stable/e8a3071ea4344d9d48ef8a4df2c097372b0c5161/code_1.74.2-1671533413_amd64.deb -O ./vscode.deb
+    wget -q https://az764295.vo.msecnd.net/stable/97dec172d3256f8ca4bfb2143f3f76b503ca0534/code_1.74.3-1673284829_amd64.deb -O ./vscode.deb
     apt-get update
     apt-get install -y ./vscode.deb
     rm ./vscode.deb

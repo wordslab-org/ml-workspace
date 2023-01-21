@@ -6,10 +6,6 @@ apt-get update
 
 # -- Dev environment --
 
-# Install Jupyter Notebook and Jupyterlab
-# (download: 62 MB, install: 337 MB)
-mamba install -y --update-all ipython notebook jupyterlab nbconvert ipywidgets 
-
 # nbdev is a notebook-driven development platform
 # (download: 0.3 MB, install: 1.7 MB)
 mamba install -y -c fastai nbdev
@@ -59,6 +55,12 @@ mamba install -y -c conda-forge tensorflow=2.11.0=cuda112*py310*
 
 # Suppress annoying Tensorflow INFO messages
 export TF_CPP_MIN_LOG_LEVEL=1
+
+# Install and activate Jupyter Tensorboard
+pip install --no-cache-dir git+https://github.com/InfuseAI/jupyter_tensorboard.git
+jupyter tensorboard enable --sys-prefix
+# install temporarily from gitrepo due to the issue that jupyterlab_tensorboard does not work with 3.x yet as described here: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28#issuecomment-783594541
+pip install git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 # JAX: autograd and XLA, brought together for high-performance machine learning research.
 # (download : 45 MB, install: 197 MB)

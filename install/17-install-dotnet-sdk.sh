@@ -17,8 +17,9 @@ apt-get install -y dotnet-sdk-${DOTNET_VERSION}
 
 # Install .NET Interactive - used to install a Jupyter .NET kernel
 dotnet tool install -g Microsoft.dotnet-interactive
+export PATH=$PATH:$HOME/.dotnet/tools/
 
-# Install the .NET kernel by running the following:
+# Install the .NET kernel later by running the following:
 # > dotnet interactive jupyter install
 # You can verify the installation by running the following:
 # > jupyter kernelspec list
