@@ -10,30 +10,32 @@ cp ~/ml-workspace/resources/5xx.html $RESOURCES_PATH/
     
 
 # Copy scripts into workspace
-cp ~/ml-workspace/resources/scripts $RESOURCES_PATH/scripts
+cp -r ~/ml-workspace/resources/scripts $RESOURCES_PATH/scripts
 
 # Create Desktop Icons for Tooling
-cp ~/ml-workspace/resources/branding $RESOURCES_PATH/branding
+cp -r ~/ml-workspace/resources/branding $RESOURCES_PATH/branding
 
 # Configure Home folder (e.g. xfce)
-cp ~/ml-workspace/resources/home/ $HOME/
+cp -r ~/ml-workspace/resources/home/ $HOME/
 
 # Copy some configuration files
 cp ~/ml-workspace/resources/ssh/ssh_config /etc/ssh/
 cp ~/ml-workspace/resources/ssh/sshd_config /etc/ssh/
 cp ~/ml-workspace/resources/nginx/nginx.conf /etc/nginx/nginx.conf
+mkdir -p /etc/xrdp/
 cp ~/ml-workspace/resources/config/xrdp.ini /etc/xrdp/xrdp.ini
 
 # Configure supervisor process
+mkdir -p /etc/supervisor
 cp ~/ml-workspace/resources/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 # Copy all supervisor program definitions into workspace
-cp ~/ml-workspace/resources/supervisor/programs/ /etc/supervisor/conf.d/
+cp -r ~/ml-workspace/resources/supervisor/programs/ /etc/supervisor/conf.d/
 
 # Assume yes to all apt commands, to avoid user confusion around stdin.
 cp ~/ml-workspace/resources/config/90assumeyes /etc/apt/apt.conf.d/
 
 # Monkey Patching novnc: Styling and added clipboard support. All changed sections are marked with CUSTOM CODE
-cp ~/ml-workspace/resources/novnc/ $RESOURCES_PATH/novnc/
+cp -r ~/ml-workspace/resources/novnc/ $RESOURCES_PATH/novnc/
 
 ## create index.html to forward automatically to `vnc.html`
 # Needs to be run after patching
@@ -48,12 +50,17 @@ export VNC_COL_DEPTH=24
 cp ~/ml-workspace/resources/jupyter/tensorboard_notebook_patch.py $CONDA_PYTHON_DIR/site-packages/tensorboard/notebook.py
 
 # Additional jupyter configuration
+mkdir -p /etc/jupyter
 cp ~/ml-workspace/resources/jupyter/jupyter_notebook_config.py /etc/jupyter/
+mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
 cp ~/ml-workspace/resources/jupyter/sidebar.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
+mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
 cp ~/ml-workspace/resources/jupyter/plugin.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
+mkdir -p /etc/ipython
 cp ~/ml-workspace/resources/jupyter/ipython_config.py /etc/ipython/ipython_config.py
 
 # Branding of various components
+
 # Jupyter Branding
 cp -f $RESOURCES_PATH/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
 cp -f $RESOURCES_PATH/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
@@ -72,7 +79,7 @@ git config --global http.sslVerify false
 git config --global credential.helper 'cache --timeout=31540000'
 
 # Configure netdata
-cp ~/ml-workspace/resources/netdata/ /etc/netdata/
+cp -r ~/ml-workspace/resources/netdata/ /etc/netdata/
 cp ~/ml-workspace/resources/netdata/cloud.conf /var/lib/netdata/cloud.d/cloud.conf
 
 # Configure Matplotlib
@@ -82,7 +89,7 @@ MPLBACKEND=Agg python -c "import matplotlib.pyplot"
 sed -i "s/^.*Matplotlib is building the font cache using fc-list.*$/# Warning removed/g" $CONDA_PYTHON_DIR/site-packages/matplotlib/font_manager.py
 
 # Create Desktop Icons for Tooling
-cp ~/ml-workspace/resources/icons $RESOURCES_PATH/icons
+cp -r ~/ml-workspace/resources/icons $RESOURCES_PATH/icons
 
 # ungit:
 echo "[Desktop Entry]\nVersion=1.0\nType=Link\nName=Ungit\nComment=Git Client\nCategories=Development;\nIcon=/resources/icons/ungit-icon.png\nURL=http://localhost:8092/tools/ungit" > /usr/share/applications/ungit.desktop
@@ -98,11 +105,11 @@ rm /usr/share/applications/xfce4-mail-reader.desktop
 rm /usr/share/applications/xfce4-session-logout.desktop
 
 # Copy resources into workspace
-cp ~/ml-workspace/resources/tools $RESOURCES_PATH/tools
-cp ~/ml-workspace/resources/tests $RESOURCES_PATH/tests
-cp ~/ml-workspace/resources/tutorials $RESOURCES_PATH/tutorials
-cp ~/ml-workspace/resources/licenses $RESOURCES_PATH/licenses
-cp ~/ml-workspace/resources/reports $RESOURCES_PATH/reports
+cp -r ~/ml-workspace/resources/tools $RESOURCES_PATH/tools
+cp -r ~/ml-workspace/resources/tests $RESOURCES_PATH/tests
+cp -r ~/ml-workspace/resources/tutorials $RESOURCES_PATH/tutorials
+cp -r ~/ml-workspace/resources/licenses $RESOURCES_PATH/licenses
+cp -r ~/ml-workspace/resources/reports $RESOURCES_PATH/reports
 
 # Various configurations
 touch $HOME/.ssh/config
@@ -111,7 +118,9 @@ chmod -R a+rwx $WORKSPACE_HOME
 chmod -R a+rwx $RESOURCES_PATH
 # make all desktop launchers executable
 chmod -R a+rwx /usr/share/applications/
+mkdir -p $HOME/Desktop/Tools
 ln -s $RESOURCES_PATH/tools/ $HOME/Desktop/Tools
+mkdir -p $HOME/Desktop/workspace
 ln -s $WORKSPACE_HOME $HOME/Desktop/workspace
 chmod a+rwx /usr/local/bin/start-notebook.sh
 chmod a+rwx /usr/local/bin/start.sh
