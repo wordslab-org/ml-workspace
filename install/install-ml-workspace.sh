@@ -20,4 +20,4 @@
 . ~/ml-workspace/install/20-install-jupyter-jupyterlab.sh
 . ~/ml-workspace/install/21-install-vscode-ide.sh
 . ~/ml-workspace/install/22-configure-workspace.sh
-. ~/ml-workspace/install/23-install-datascience-librairies.sh   # 
+. ~/ml-workspace/install/23-install-datascience-librairies.sh   #
