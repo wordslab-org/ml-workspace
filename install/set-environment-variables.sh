@@ -1,0 +1,9 @@
+. ~/ml-workspace/install/01-ENV.sh
+. ~/ml-workspace/install/01-post-ENV.sh
+. ~/ml-workspace/install/14-ENV.sh
+. ~/ml-workspace/install/15-ENV.sh
+. ~/ml-workspace/install/16-ENV.sh
+. ~/ml-workspace/install/17-ENV.sh
+. ~/ml-workspace/install/18-post-ENV.sh
+. ~/ml-workspace/install/22-post-ENV.sh
+. ~/ml-workspace/install/23-ENV.sh

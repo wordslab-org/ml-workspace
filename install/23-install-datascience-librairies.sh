@@ -135,7 +135,7 @@ mamba install -y -c conda-forge pytorch=${PYTORCH_VERSION}
 
 # TensorFlow: end-to-end machine learning platform, solutions to accelerate machine learning tasks at every stage of your workflow
 # (download : 480 MB, install: 1250 MB)
-mamba install -y -c conda-forge tensorflow=${TENSORFLOW_VERSION}
+mamba install -y -c conda-forge tensorflow=${TENSORFLOW_VERSION} pydot
 
 # Install and activate Jupyter Tensorboard
 pip install --no-cache-dir git+https://github.com/InfuseAI/jupyter_tensorboard.git
