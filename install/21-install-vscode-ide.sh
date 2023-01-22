@@ -28,7 +28,7 @@ VS_ESLINT_VERSION="2.3.0"
 # /bin/bash $RESOURCES_PATH/tools/vs-code-server.sh --install
 # --> error code-server@4.9.1: The engine "node" is incompatible with this module. Expected version "16". Got "18.12.1"
 curl -fsSL https://code-server.dev/install.sh | sh
-ln -s /usr/local/bin/code-server /usr/bin/code-server
+ln -s /usr/bin/code-server /usr/local/bin/code-server
 
 # Install Visual Studio Code
 cp ~/ml-workspace/resources/tools/vs-code-desktop.sh $RESOURCES_PATH/tools/vs-code-desktop.sh

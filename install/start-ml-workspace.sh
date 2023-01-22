@@ -1,10 +1,10 @@
 # Set environment variables for cold start
 if [ -z ${WORKSPACE_BASE_URL+x} ];
 then
-    echo "Environment variables already set"
-else
     echo "Setting environment variables ..."
     . ~/ml-workspace/install/set-environment-variables.sh
+else
+    echo "Environment variables already set"
 fi
 
 # ARG ARG_BUILD_DATE="unknown"

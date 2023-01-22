@@ -63,8 +63,8 @@ cat $HOME/.jupyter/nbconfig/notebook.json | jq '.toc2={"moveMenuLeft": false,"wi
 # TODO: Not installed. Disable Jupyter Server Proxy
 # jupyter nbextension disable jupyter_server_proxy/tree --sys-prefix
 # Install jupyter black
-jupyter nbextension install https://github.com/drillan/jupyter-black/archive/master.zip --sys-prefix
-jupyter nbextension enable jupyter-black-master/jupyter-black --sys-prefix
+# jupyter nbextension install https://github.com/drillan/jupyter-black/archive/master.zip --sys-prefix
+# jupyter nbextension enable jupyter-black-master/jupyter-black --sys-prefix
 # Install and activate what if tool
 # [removed - install tensorflow as dependency] pip install witwidget
 # jupyter nbextension install --py --symlink --sys-prefix witwidget
