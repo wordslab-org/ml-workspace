@@ -2,10 +2,6 @@
 # https://github.com/LukasMasuch
 apt-get update
 
-# Install Jupyter Tooling Extension
-cp -r ~/ml-workspace/resources/jupyter/extensions $RESOURCES_PATH/jupyter-extensions
-pip install --no-cache-dir $RESOURCES_PATH/jupyter-extensions/tooling-extension/
-
 ### CONFIGURATION ###
 
 # Copy files into workspace

@@ -77,6 +77,7 @@ cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-pack
 cp ~/ml-workspace/resources/jupyter/start.sh /usr/local/bin/
 cp ~/ml-workspace/resources/jupyter/start-notebook.sh /usr/local/bin/
 cp ~/ml-workspace/resources/jupyter/start-singleuser.sh /usr/local/bin/
+chmod u+x /usr/local/bin/start*
 
 
 # Install jupyter extensions
@@ -148,6 +149,12 @@ jupyter lab clean
 jlpm cache clean
 # Remove build folder -> should be remove by lab clean as well?
 rm -rf $CONDA_ROOT/share/jupyter/lab/staging
+
+
+# Install Jupyter Tooling Extension
+cp -r ~/ml-workspace/resources/jupyter/extensions $RESOURCES_PATH/jupyter-extensions
+pip install --no-cache-dir $RESOURCES_PATH/jupyter-extensions/tooling-extension/
+
 
 # Install and activate ZSH
 #cp ~/ml-workspace/resources/tools/oh-my-zsh.sh $RESOURCES_PATH/tools/oh-my-zsh.sh

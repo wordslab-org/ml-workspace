@@ -2,6 +2,6 @@
 wordslab-nerdctl-install.sh
 wordslab-buildkit-start.sh
 
-nerdctl build -t ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0 -f wordslab-ubuntu.Dockerfile .
+nerdctl build -t ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0 -f wordslab-jupyter.Dockerfile .
 
-nerdctl push ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0
+nerdctl push ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0
