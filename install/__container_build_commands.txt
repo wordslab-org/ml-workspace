@@ -1,0 +1,7 @@
+# wordslab-org/wordslab/wordslab.manager/scripts/vm/nerdctl/
+wordslab-nerdctl-install.sh
+wordslab-buildkit-start.sh
+
+nerdctl build -t ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0 -f wordslab-ubuntu.Dockerfile .
+
+nerdctl push ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0

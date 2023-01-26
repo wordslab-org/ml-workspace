@@ -80,7 +80,7 @@ pipx inject supervisor supervisor-stdout
 # supervisor needs this logging path
 mkdir -p /var/log/supervisor/
 
-# Install crontab (used by conatiner startup script)
+# Install crontab (used by container startup script)
 mamba install -y -c conda-forge python-crontab
 
 # Cleanup

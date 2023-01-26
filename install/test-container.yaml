@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordslab-runtimes
+  labels:
+    app: wordslab-runtimes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordslab-runtimes
+  template:
+    metadata:
+      labels:
+        app: wordslab-runtimes
+    spec:
+      containers:
+      - name: wordslab-runtimes
+        image: ghcr.io/wordslab-org/wordslab-runtimes:2023.01.0
+        command:
+          - "sleep"
+          - "604800"
+        ports:
+        - containerPort: 8080

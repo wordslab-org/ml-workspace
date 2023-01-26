@@ -1,0 +1,16 @@
+https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry
+
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+https://github.com/settings/tokens/new?scopes=write:packages
+
+export CR_PAT=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+echo $CR_PAT | nerdctl login ghcr.io -u laurentprudhon --password-stdin
+
+nerdctl build -t ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0 -f wordslab-ubuntu.Dockerfile .
+
+nerdctl push ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0
+
+https://github.com/orgs/wordslab-org/packages
+
+https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility

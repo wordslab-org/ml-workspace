@@ -13,14 +13,6 @@ rm packages-microsoft-prod.deb
 apt-get update
 apt-get install -y dotnet-sdk-${DOTNET_VERSION}
 
-# Install .NET Interactive - used to install a Jupyter .NET kernel
-dotnet tool install -g Microsoft.dotnet-interactive
-
-# Install the .NET kernel later with Jypter by running the following:
-# > dotnet interactive jupyter install
-# You can verify the installation by running the following:
-# > jupyter kernelspec list
-
 # Cleanup
 clean-layer.sh
 

@@ -235,6 +235,10 @@ pip install gradio==${GRADIO_VERSION}
 # graphviz
 # seaborn
 
+# Add tensorboard patch - use tensorboard jupyter plugin instead of the actual tensorboard magic
+cp ~/ml-workspace/resources/jupyter/tensorboard_notebook_patch.py $CONDA_PYTHON_DIR/site-packages/tensorboard/notebook.py
+
+
 # Conda installs wrong node version - relink conda node to the actual node
 rm -f /opt/conda/bin/node && ln -s /usr/bin/node /opt/conda/bin/node
 rm -f /opt/conda/bin/npm && ln -s /usr/bin/npm /opt/conda/bin/npm

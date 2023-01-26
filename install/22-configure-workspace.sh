@@ -2,6 +2,10 @@
 # https://github.com/LukasMasuch
 apt-get update
 
+# Install Jupyter Tooling Extension
+cp -r ~/ml-workspace/resources/jupyter/extensions $RESOURCES_PATH/jupyter-extensions
+pip install --no-cache-dir $RESOURCES_PATH/jupyter-extensions/tooling-extension/
+
 ### CONFIGURATION ###
 
 # Copy files into workspace
@@ -40,26 +44,8 @@ cp -r ~/ml-workspace/resources/novnc/ $RESOURCES_PATH/novnc/
 # Needs to be run after patching
 ln -s $RESOURCES_PATH/novnc/vnc.html $RESOURCES_PATH/novnc/index.html
 
-# Add tensorboard patch - use tensorboard jupyter plugin instead of the actual tensorboard magic
-cp ~/ml-workspace/resources/jupyter/tensorboard_notebook_patch.py $CONDA_PYTHON_DIR/site-packages/tensorboard/notebook.py
-
-# Additional jupyter configuration
-mkdir -p /etc/jupyter
-cp ~/ml-workspace/resources/jupyter/jupyter_notebook_config.py /etc/jupyter/
-mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
-cp ~/ml-workspace/resources/jupyter/sidebar.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
-mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
-cp ~/ml-workspace/resources/jupyter/plugin.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
-mkdir -p /etc/ipython
-cp ~/ml-workspace/resources/jupyter/ipython_config.py /etc/ipython/ipython_config.py
-
 # Branding of various components
 
-# Jupyter Branding
-mkdir -p $CONDA_PYTHON_DIR/site-packages/notebook/static/base/images/
-cp -f $RESOURCES_PATH/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
-cp -f $RESOURCES_PATH/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
-cp -f $RESOURCES_PATH/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
 # Filebrowser Branding
 mkdir -p $RESOURCES_PATH"/filebrowser/img/icons/"
 cp -f $RESOURCES_PATH/branding/favicon.ico $RESOURCES_PATH"/filebrowser/img/icons/favicon.ico"
@@ -76,12 +62,6 @@ git config --global credential.helper 'cache --timeout=31540000'
 # Configure netdata
 cp -r ~/ml-workspace/resources/netdata/ /etc/netdata/
 cp ~/ml-workspace/resources/netdata/cloud.conf /var/lib/netdata/cloud.d/cloud.conf
-
-# Configure Matplotlib
-# Import matplotlib the first time to build the font cache.
-MPLBACKEND=Agg python -c "import matplotlib.pyplot"
-# Stop Matplotlib printing junk to the console on first load
-sed -i "s/^.*Matplotlib is building the font cache using fc-list.*$/# Warning removed/g" $CONDA_PYTHON_DIR/site-packages/matplotlib/font_manager.py
 
 # Create Desktop Icons for Tooling
 cp -r ~/ml-workspace/resources/icons $RESOURCES_PATH/icons
