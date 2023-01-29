@@ -1,7 +1,19 @@
 # wordslab-org/wordslab/wordslab.manager/scripts/vm/nerdctl/
-wordslab-nerdctl-install.sh
-wordslab-buildkit-start.sh
+# > wordslab-nerdctl-install.sh
+# > wordslab-buildkit-start.sh
 
-nerdctl build -t ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0 -f wordslab-jupyter.Dockerfile .
+# Then execute the 4 first lines of :
+# ./__github_container_registry.txt
 
+git clone https://github.com/wordslab-org/ml-workspace.git
+cd ml-workspace/
+
+nerdctl build --no-cache -t ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0 -f wordslab-ubuntu.Dockerfile .
+nerdctl push ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0
+
+nerdctl build --no-cache -t ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0 -f wordslab-jupyter.Dockerfile .
 nerdctl push ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0
+
+nerdctl build --no-cache -t ghcr.io/wordslab-org/wordslab-workspace:2023.01.0 -f wordslab-workspace.Dockerfile .
+nerdctl push ghcr.io/wordslab-org/wordslab-workpsace:2023.01.0
+

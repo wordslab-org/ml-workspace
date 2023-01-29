@@ -60,7 +60,7 @@ sleep $SLEEP_TIMER
 
 # Install prettier
 # https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-wget --retry-on-http-error=429 --waitretry 15 --tries 10 --no-verbose https://marketplace.visualstudio.com/_apis/public/gallery/publishers/esbenp/vsextensions/prettier-vscode/$PRETTIER_VERSION/vspackage -O prettier-vscode-$PRETTIER_VERSION.vsix
+wget --retry-on-http-error=429 --waitretry 15 --tries 10 --no-verbose https://marketplace.visualstudio.com/_apis/public/gallery/publishers/esbenp/vsextensions/prettier-vscode/$VS_PRETTIER_VERSION/vspackage -O prettier-vscode-$VS_PRETTIER_VERSION.vsix
 bsdtar -xf prettier-vscode-$VS_PRETTIER_VERSION.vsix extension
 rm prettier-vscode-$VS_PRETTIER_VERSION.vsix
 mv extension $HOME/.vscode/extensions/prettier-vscode-$VS_PRETTIER_VERSION.vsix
