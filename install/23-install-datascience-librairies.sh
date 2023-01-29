@@ -235,9 +235,27 @@ pip install gradio==${GRADIO_VERSION}
 # graphviz
 # seaborn
 
+# Install and activate Jupyter Tensorboard
+#  pip install --no-cache-dir git+https://github.com/InfuseAI/jupyter_tensorboard.git && \
+#   jupyter tensorboard enable --sys-prefix && \
 # Add tensorboard patch - use tensorboard jupyter plugin instead of the actual tensorboard magic
-cp ~/ml-workspace/resources/jupyter/tensorboard_notebook_patch.py $CONDA_PYTHON_DIR/site-packages/tensorboard/notebook.py
+#cp ~/ml-workspace/resources/jupyter/tensorboard_notebook_patch.py $CONDA_PYTHON_DIR/site-packages/tensorboard/notebook.py
 
+#tensorboardX==2.3 # TensorBoardX lets you watch Tensors Flow without Tensorflow
+#pandas-profiling==2.13.0 # Generate profile report for pandas DataFrame
+
+#facets-overview==1.0.0
+#jupyter-client==6.2.0
+#jupyter-console==6.4.0
+#jupyter-core==4.7.1
+#jupyter-kernel-gateway==2.5.0
+#jupyter-server==1.9.0
+#jupyter-server-proxy==3.0.2
+#nbval==0.9.6
+#papermill==2.3.3
+#pivottablejs==0.9.0
+#pythreejs==2.3.0
+#qgrid==1.3.1
 
 # Conda installs wrong node version - relink conda node to the actual node
 rm -f /opt/conda/bin/node && ln -s /usr/bin/node /opt/conda/bin/node

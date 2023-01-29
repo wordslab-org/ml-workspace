@@ -6,8 +6,14 @@
 # Install Jupyter Notebook and Jupyterlab
 mamba install -y --update-all ipython notebook jupyterlab jupyterhub
 
+# Jupyter configuration
+mkdir -p /etc/jupyter/nbconfig
+cp -r ~/ml-workspace/resources/jupyter/nbconfig/. /etc/jupyter/nbconfig
+cp ~/ml-workspace/resources/jupyter/jupyter_notebook_config.json /etc/jupyter/
+
 # Convert Notebooks to other formats
 # https://nbconvert.readthedocs.io/en/latest/
+# TODO: nbconvert 6.x makes problems with template_path
 mamba install -y nbconvert
 
 # Jupyter notebooks as Markdown documents, Julia, Python or R scripts
@@ -16,8 +22,8 @@ mamba install -y jupytext
 
 # Jupyter Widgets are interactive browser controls for Jupyter notebooks
 # https://ipywidgets.readthedocs.io/en/stable/
-mamba install -y ipywidgets
-
+mamba install -y ipywidgets widgetsnbextension
+ 
 # Matplotlib Jupyter Extension
 # https://matplotlib.org/ipympl/
 mamba install -y ipympl
@@ -47,38 +53,14 @@ mamba install -y jupyter_contrib_nbextensions
 # https://nbdime.readthedocs.io/en/latest/
 mamba install -y nbdime
 
+==3.5.1 # IPython HTML widgets for Jupyter
+tensorboardX==2.3 # TensorBoardX lets you watch Tensors Flow without Tensorflow
+pandas-profiling==2.13.0 # Generate profile report for pandas DataFrame
 
-# Jupyter configuration
-mkdir -p /etc/jupyter
-cp ~/ml-workspace/resources/jupyter/jupyter_notebook_config.py /etc/jupyter/
-cp ~/ml-workspace/resources/jupyter/jupyter_notebook_config.json /etc/jupyter/
-mkdir -p /etc/jupyter/nbconfig
-cp -r ~/ml-workspace/resources/jupyter/nbconfig /etc/jupyter/nbconfig
-mkdir -p /etc/ipython
-cp ~/ml-workspace/resources/jupyter/ipython_config.py /etc/ipython/ipython_config.py
-
-# Jupyterlab configuration
-mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
-cp ~/ml-workspace/resources/jupyter/sidebar.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
-mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
-cp ~/ml-workspace/resources/jupyter/plugin.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
 
 # Create empty notebook configuration
 mkdir -p $HOME/.jupyter/nbconfig/
 printf "{\"load_extensions\": {}}" > $HOME/.jupyter/nbconfig/notebook.json
-
-# Jupyter Branding
-mkdir -p $CONDA_PYTHON_DIR/site-packages/notebook/static/base/images/
-cp -f ~/ml-workspace/resources/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
-cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
-cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
-
-# Jypyter launch scripts
-cp ~/ml-workspace/resources/jupyter/start.sh /usr/local/bin/
-cp ~/ml-workspace/resources/jupyter/start-notebook.sh /usr/local/bin/
-cp ~/ml-workspace/resources/jupyter/start-singleuser.sh /usr/local/bin/
-chmod u+x /usr/local/bin/start*
-
 
 # Install jupyter extensions
 # Activate and configure extensions
@@ -96,6 +78,7 @@ jupyter nbextension enable toc2/main --sys-prefix
 jupyter nbextension enable execute_time/ExecuteTime --sys-prefix
 jupyter nbextension enable collapsible_headings/main --sys-prefix
 jupyter nbextension enable codefolding/main --sys-prefix
+
 # TODO moved to configuration files = resources/jupyter/nbconfig Edit notebook config
 # echo '{"nbext_hide_incompat": false}' > $HOME/.jupyter/nbconfig/common.json
 cat $HOME/.jupyter/nbconfig/notebook.json | jq '.toc2={"moveMenuLeft": false,"widenNotebook": false,"skip_h1_title": false,"sideBar": true,"number_sections": false,"collapse_to_match_collapsible_headings": true}' > tmp.$$.json && mv tmp.$$.json $HOME/.jupyter/nbconfig/notebook.json
@@ -152,8 +135,32 @@ rm -rf $CONDA_ROOT/share/jupyter/lab/staging
 
 
 # Install Jupyter Tooling Extension
-cp -r ~/ml-workspace/resources/jupyter/extensions $RESOURCES_PATH/jupyter-extensions
+cp -r ~/ml-workspace/resources/jupyter/extensions/. $RESOURCES_PATH/jupyter-extensions
 pip install --no-cache-dir $RESOURCES_PATH/jupyter-extensions/tooling-extension/
+
+
+# Jupyter configuration
+cp ~/ml-workspace/resources/jupyter/jupyter_notebook_config.py /etc/jupyter/
+mkdir -p /etc/ipython
+cp ~/ml-workspace/resources/jupyter/ipython_config.py /etc/ipython/ipython_config.py
+
+# Jupyterlab configuration
+mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
+cp ~/ml-workspace/resources/jupyter/sidebar.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/application-extension/
+mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
+cp ~/ml-workspace/resources/jupyter/plugin.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
+
+# Jupyter Branding
+mkdir -p $CONDA_PYTHON_DIR/site-packages/notebook/static/base/images/
+cp -f ~/ml-workspace/resources/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
+cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
+cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
+
+# Jupyter launch scripts
+cp ~/ml-workspace/resources/jupyter/start.sh /usr/local/bin/
+cp ~/ml-workspace/resources/jupyter/start-notebook.sh /usr/local/bin/
+cp ~/ml-workspace/resources/jupyter/start-singleuser.sh /usr/local/bin/
+chmod u+x /usr/local/bin/start*
 
 
 # Install and activate ZSH

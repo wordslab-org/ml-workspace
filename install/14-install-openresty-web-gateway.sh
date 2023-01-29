@@ -43,7 +43,7 @@ rm -r $RESOURCES_PATH"/openresty"
 chmod -R a+rwx $RESOURCES_PATH 
 
 mkdir -p /etc/nginx/nginx_plugins
-cp -r ~/ml-workspace/resources/nginx/lua-extensions /etc/nginx/nginx_plugins
+cp -r ~/ml-workspace/resources/nginx/lua-extensions/. /etc/nginx/nginx_plugins
 
 # Cleanup
 clean-layer.sh

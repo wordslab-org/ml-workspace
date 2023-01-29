@@ -8,8 +8,7 @@ from jupyter_core.paths import jupyter_data_dir
 
 c = get_config()
 # https://jupyter-notebook.readthedocs.io/en/stable/config.html
-# TODO: not needed to open this port?
-# c.NotebookApp.ip = "*"
+c.NotebookApp.ip = "0.0.0.0"
 c.NotebookApp.port = 8090
 c.NotebookApp.notebook_dir = "./"
 c.NotebookApp.open_browser = False

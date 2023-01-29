@@ -64,4 +64,7 @@ RUN . ~/ml-workspace/install/18-install-jupyter-jupyterlab.sh
 
 RUN rm -rf ~/ml-workspace
 
+# Only useful in this intermediary step
+EXPOSE 8090
+
 CMD start-notebook.sh
