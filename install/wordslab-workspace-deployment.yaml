@@ -1,4 +1,4 @@
-ind: "PersistentVolumeClaim"
+kind: "PersistentVolumeClaim"
 apiVersion: "v1"
 metadata:
   name: wordslab-workspace
@@ -69,19 +69,9 @@ spec:
     spec:
       containers:
         - name: ml-workspace
-          image: "nvidia/cuda:11.8.0-base-ubuntu22.04"
+          image: ghcr.io/wordslab-org/wordslab-workspace:2023.01.0
           imagePullPolicy: IfNotPresent
-          command:
-            - "sleep"
-            - "604800"
-          workingDir: /root
           env:
-            - name: NVIDIA_VISIBLE_DEVICES
-              value: "all"
-            - name: NVIDIA_DRIVER_CAPABILITIES
-              value: "compute,utility"
-            - name: NVIDIA_REQUIRE_CUDA
-              value: "cuda>=11.8"
             - name: RESTARTABLE
               value: "yes"
             # To enable updating the image: https://github.com/kubernetes/kubernetes/issues/33664
@@ -91,22 +81,22 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-#          livenessProbe:
-#            httpGet:
-#              path: /workspace
-#              port: http
-#            initialDelaySeconds: 15
-#            failureThreshold: 40
-#            periodSeconds: 10
-#            timeoutSeconds: 2
-#          readinessProbe:
-#            httpGet:
-#              path: /workspace
-#              port: http
-#            initialDelaySeconds: 15
-#            failureThreshold: 40
-#            periodSeconds: 10
-#            timeoutSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /workspace/tree
+              port: http
+            initialDelaySeconds: 15
+            failureThreshold: 40
+            periodSeconds: 10
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /workspace/tree
+              port: http
+            initialDelaySeconds: 15
+            failureThreshold: 40
+            periodSeconds: 10
+            timeoutSeconds: 2
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
@@ -119,5 +109,3 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: wordslab-workspace
-
-# kubectl exec -it ml-workspace-test-7cb4d95c77-69dfm -- /bin/bash

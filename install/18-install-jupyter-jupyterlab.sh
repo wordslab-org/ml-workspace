@@ -151,10 +151,9 @@ mkdir -p $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension
 cp ~/ml-workspace/resources/jupyter/plugin.jupyterlab-settings $HOME/.jupyter/lab/user-settings/@jupyterlab/extensionmanager-extension/
 
 # Jupyter Branding
-mkdir -p $CONDA_PYTHON_DIR/site-packages/notebook/static/base/images/
-cp -f ~/ml-workspace/resources/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
-cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
-cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
+cp -f ~/ml-workspace/resources/branding/logo.png $CONDA_PYTHON_DIR"/site-packages/nbclassic/static/base/images/logo.png"
+cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/nbclassic/static/base/images/favicon.ico"
+cp -f ~/ml-workspace/resources/branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/nbclassic/static/favicon.ico"
 
 # Jupyter launch scripts
 cp ~/ml-workspace/resources/jupyter/start.sh /usr/local/bin/

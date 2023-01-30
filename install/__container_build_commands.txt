@@ -15,5 +15,16 @@ nerdctl build --no-cache -t ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0 -f w
 nerdctl push ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0
 
 nerdctl build --no-cache -t ghcr.io/wordslab-org/wordslab-workspace:2023.01.0 -f wordslab-workspace.Dockerfile .
-nerdctl push ghcr.io/wordslab-org/wordslab-workpsace:2023.01.0
+nerdctl push ghcr.io/wordslab-org/wordslab-workspace:2023.01.0
 
+# 1. Jupyter Files tab : no vscode button - https://github.com/ml-tooling/ml-workspace/raw/main/docs/images/features/vs-code-open.png
+# 2. GUI desktop : Jupyter Notebook link KO - no default browser
+# 3. GUI desktop : workspace and Tools contain symbolic links - thye should be links themselves
+# 4. GUI desktop : no vscode and firefox icons on the desktop + strange launcher at the bottom
+# 5. GUI desktop : failed to launch vscode from menu - start Visual Studio Code with the environment variable DONT_PROMPT_WSL_INSTALL defined / add the argument `--no-sandbox` and specify an alternate user data directory using the `--user-data-dir` argument 
+# 6. Jupyterlab : need to manually enable the installed extensions + it takes a while
+# 7. File sharing (http://127.0.0.1/workspace/shared/filebrowser/?token=dc32872e5c54ab5dfc62c6f3012f11bb2db2868d) requires a user and password
+# 8. ssh connexion: kex_exchange_identification: Connection closed by remote host
+#     --> need to configure a Traefik TCP Router on a specific endpoint with HostSNI('*') rule
+# 9. vscode client : version too old compared to plugins version
+# 10. vscode server and client : no C# plugins installed

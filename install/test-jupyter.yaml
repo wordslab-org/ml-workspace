@@ -1,0 +1,58 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordslab-jupyter
+  labels:
+    app: wordslab-jupyter
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: PathPrefix(`/jupyter`)
+    kind: Rule
+    services:
+    - name: wordslab-jupyter
+      port: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordslab-jupyter
+  labels:
+    app: wordslab-jupyter
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8090
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: wordslab-jupyter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordslab-jupyter
+  labels:
+    app: wordslab-jupyter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordslab-jupyter
+  template:
+    metadata:
+      labels:
+        app: wordslab-jupyter
+    spec:
+      containers:
+      - name: wordslab-jupyter
+        image: ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0
+        ports:
+        - name: http
+          containerPort: 8090
+          protocol: TCP
+        env:
+        - name: WORKSPACE_BASE_URL
+          value: /jupyter
