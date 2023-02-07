@@ -1,0 +1,158 @@
+---
+Package: lambda-server
+Version: 22.04.2
+Section: metapackages
+Maintainer: Lambda Labs <software@lambdalabs.com>
+Installed-Size: 9216 B
+Description: Lambda Server system
+ This metapackage depends on all of the packages for
+ a default Lambda Server environment.
+---
+For all packages below
+Maintainer: Ubuntu Developers
+
+# https://git-scm.com/
+git
+# https://www.vim.org/
+vim
+# https://curl.haxx.se
+curl
+# https://curl.haxx.se
+emacs
+# https://htop.dev/
+htop
+# https://tmux.github.io/
+tmux
+# https://savannah.gnu.org/projects/screen
+screen
+# http://www.valgrind.org/
+valgrind
+# https://github.com/resurrecting-open-source-projects/stress
+stress
+# https://github.com/ColinIanKing/stress-ng
+stress-ng
+
+# https://www.python.org/
+# Version: 3.10.6-1~22.04
+python3-all
+# This is a convenience package which ships a symlink to point the /usr/bin/python interpreter at the current default python3 
+python-is-python3
+
+# https://pip.pypa.io/en/stable/
+# Version: 22.0.2+dfsg-1ubuntu0.1
+python3-pip
+# https://pypi.python.org/pypi/setuptools
+python3-setuptools
+# https://github.com/pypa/wheel
+python3-wheel
+
+# https://virtualenv.pypa.io/
+virtualenv
+
+# https://github.com/ipython/ipython
+# Version: 7.31.1-1
+ipython3
+# https://github.com/jupyter/jupyter_core
+# Version: 4.9.1-1
+jupyter
+
+# Depends: libc6-dev | libc-dev, gcc (>= 4:10.2), g++ (>= 4:10.2), make, dpkg-dev
+build-essential
+# https://cmake.org/
+cmake
+# Depends: cpp (= 4:11.2.0-1ubuntu1), gcc (= 4:11.2.0-1ubuntu1), gfortran-11 (>= 11.2.0-1~)
+gfortran
+# https://gitlab.com/pycqa/flake8
+flake8
+# https://github.com/clvv/fasd
+fasd
+# http://traceroute.sourceforge.net/
+traceroute
+# https://github.com/Syllo/nvtop
+nvtop
+# https://savannah.nongnu.org/projects/acl/
+acl
+# https://github.com/ipmitool/ipmitool
+ipmitool
+
+---
+Package: lambda-stack-cuda
+Version: 0.1.13~22.04.2
+Section: metapackages
+Maintainer: Lambda Labs <software@lambdalabs.com>
+Installed-Size: 10.2 kB
+Description: Deep learning software stack from Lambda Labs (CUDA)
+ This metapackage depends on the deep learning packages provided by
+ Lambda Labs for a CUDA configur1.13.1ed computer.
+---
+
+# https://keras.io
+# Version: 2.11.0-0lambda1
+# Maintainer: Lambda Labs
+# Depends: python3-protobuf (>= 3.11.4), python3-tensorflow (>= 2.11.0)
+python3-keras
+
+# http://scikit-learn.sourceforge.net
+# Version: 0.23.2-5ubuntu6
+# Depends: python3-numpy, python3-scipy
+python3-sklearn
+
+# http://www.numpy.org/
+# Version: 1:1.21.5-1ubuntu22.04.1
+> python3-numpy
+
+# https://www.scipy.org/
+# Version: 1.8.0-1exp2ubuntu1
+> python3-scipy
+
+# https://pandas.pydata.org/
+# Version: 1.3.5+dfsg-3
+python3-pandas
+
+# https://opencv.org
+# Version: 4.5.4+dfsg-9ubuntu4
+python3-opencv
+
+# https://www.tensorflow.org
+# Version: 2.11.0-0lambda1
+# Maintainer: Lambda Labs
+tensorboard
+
+# https://github.com/google/protobuf/
+# Version: 3.12.4-1ubuntu7
+libprotobuf-dev
+
+# https://developer.nvidia.com/cuda-zone
+# Version: 11.8.0-0lambda0.22.04.3
+# Maintainer: Debian NVIDIA Maintainers
+# Depends: nvidia-profiler, nvidia-cuda-dev, nvidia-opencl-dev
+nvidia-cuda-toolkit
+
+# http://pytorch.org
+# Version: 1.13.1+ds-0lambda0.22.04.1
+# Maintainer: Lambda Labs
+python3-torch-cuda
+
+# http://pytorch.org
+# Version: 0.14.1-0lambda0.22.04.1
+# Maintainer: Lambda Labs
+# Depends: python3-pil
+python3-torchvision-cuda
+
+# http://python-pillow.github.io/
+# Version: 9.0.1-1ubuntu0.1
+> python3-pil
+
+# https://www.tensorflow.org
+# Version: 2.11.0-0lambda0.22.04.1
+# Maintainer: Lambda Labs
+python3-tensorflow-cuda
+
+# https://pypi.org/project/nvidia-ml-py3
+# Version: 7.352.0-7
+python3-pynvml
+
+# https://developer.nvidia.com/nccl
+# Version: 2.16.2-0lambda1
+# Maintainer: Lambda Labs
+libnccl-dev

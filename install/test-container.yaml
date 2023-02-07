@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordslab-runtimes
+  name: ls runtimes
   labels:
     app: wordslab-runtimes
 spec:
