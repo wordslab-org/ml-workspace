@@ -1,0 +1,488 @@
+# Jupyter Docker Stacks from https://jupyter-docker-stacks.readthedocs.io/
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html
+# https://github.com/jupyter/docker-stacks/
+
+git clone https://github.com/jupyter/docker-stacks.git /var/cache/docker-stacks
+
+# ------------------------------------------------------------
+# https://github.com/jupyter/docker-stacks/tree/main/docker-stacks-foundation
+
+# LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
+
+export NB_USER="jovyan"
+export NB_UID="1000"
+export NB_GID="100"
+
+# Fix: https://github.com/hadolint/hadolint/wiki/DL4006
+# Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
+# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# USER root
+
+# Install all OS dependencies for notebook server that starts but lacks all
+# features (e.g., download as all possible file formats)
+apt-get update --yes # && apt-get upgrade --yes
+DEBIAN_FRONTEND=noninteractive  apt-get install --yes --no-install-recommends locales sudo tini wget
+apt-get clean && rm -rf /var/lib/apt/lists/*
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+
+# Configure environment
+export SHELL=/bin/bash
+export NB_USER="${NB_USER}"
+export NB_UID=${NB_UID}
+export NB_GID=${NB_GID}
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export HOME="/home/${NB_USER}"
+
+# Copy a script that we will use to correct permissions after running certain commands
+cp /var/cache/docker-stacks/docker-stacks-foundation/fix-permissions /usr/local/bin/fix-permissions
+chmod a+rx /usr/local/bin/fix-permissions
+
+# Copy local files as late as possible to avoid cache busting
+cp /var/cache/docker-stacks/docker-stacks-foundation/start.sh /usr/local/bin/
+chmod a+rx /usr/local/bin/start.sh
+
+# Enable prompt color in the skeleton .bashrc before creating the default NB_USER
+# hadolint ignore=SC2016
+sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
+
+# Create NB_USER with name wordslab user with UID=1000 and in the 'users' group
+# and make sure these dirs are writable by the `users` group.
+echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
+    sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
+    sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
+    useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
+    chmod g+w /etc/passwd && \
+    fix-permissions "${HOME}"
+
+su -w NB_USER - ${NB_USER}
+
+# Setup work directory for backward-compatibility
+mkdir "/home/${NB_USER}/work" && \
+    fix-permissions "/home/${NB_USER}"
+
+# Configure container startup
+# ENTRYPOINT ["tini", "-g", "--"]
+# CMD ["start.sh"]
+
+cd "${HOME}"
+
+
+# ------------------------------------------------------------
+# https://github.com/jupyter/docker-stacks/tree/main/base-notebook
+
+# USER root
+exit
+
+# Install all OS dependencies for notebook server that starts but lacks all
+# features (e.g., download as all possible file formats)
+apt-get update --yes
+DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends fonts-liberation pandoc run-one
+apt-get clean && rm -rf /var/lib/apt/lists/*
+
+su -w NB_USER - ${NB_USER}
+
+export PATH=$PATH:"/home/${NB_USER}/.local/bin"
+
+# Install Jupyter Notebook, Lab, and Hub
+# Generate a notebook server config
+# Cleanup temporary files
+# Correct permissions
+# Do all this in a single RUN command to avoid duplicating all of the
+# files across image layers when the permissions change
+cd /tmp
+pip install 'notebook' 'jupyterhub' 'jupyterlab' ipywidgets
+jupyter notebook --generate-config
+# npm cache clean --force 
+jupyter lab clean
+rm -rf "/home/${NB_USER}/.cache/yarn"
+fix-permissions "/home/${NB_USER}"
+
+export JUPYTER_PORT=8888
+# EXPOSE $JUPYTER_PORT
+
+# Configure container startup
+CMD ["start-notebook.sh"]
+
+# Fix permissions on /etc/jupyter as root
+# USER root
+exit
+
+# Copy local files as late as possible to avoid cache busting
+cp /var/cache/docker-stacks/base-notebook/start-notebook.sh /usr/local/bin/
+cp /var/cache/docker-stacks/base-notebook/start-singleuser.sh /usr/local/bin/
+# Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
+mkdir -p /etc/jupyter
+cp /var/cache/docker-stacks/base-notebook/jupyter_server_config.py /etc/jupyter/
+
+
+# Legacy for Jupyter Notebook Server, see: [#1205](https://github.com/jupyter/docker-stacks/issues/1205)
+sed -re "s/c.ServerApp/c.NotebookApp/g" \
+    /etc/jupyter/jupyter_server_config.py > /etc/jupyter/jupyter_notebook_config.py && \
+    fix-permissions /etc/jupyter/
+
+# HEALTHCHECK documentation: https://docs.docker.com/engine/reference/builder/#healthcheck
+# This healtcheck works well for `lab`, `notebook`, `nbclassic`, `server` and `retro` jupyter commands
+# https://github.com/jupyter/docker-stacks/issues/915#issuecomment-1068528799
+# HEALTHCHECK  --interval=5s --timeout=3s --start-period=5s --retries=3 \
+#    CMD wget -O- --no-verbose --tries=1 --no-check-certificate \
+#    http${GEN_CERT:+s}://localhost:${JUPYTER_PORT}${JUPYTERHUB_SERVICE_PREFIX:-/}api || exit 1
+
+# Switch back to jovyan to avoid accidental container runs as root
+su -w NB_USER - ${NB_USER}
+
+WORKDIR "${HOME}"
+
+
+# ------------------------------------------------------------
+# https://github.com/jupyter/docker-stacks/tree/main/minimal-notebook
+
+USER root
+
+# Install all OS dependencies for fully functional notebook server
+apt-get update --yes
+apt-get install --yes --no-install-recommends nano-tiny unzip openssh-client less texlive-xetex texlive-fonts-recommended texlive-plain-generic xclip
+apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create alternative for nano -> nano-tiny
+update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
+
+# Add R mimetype option to specify how the plot returns from R to the browser
+mkdir -p /home/jovyan/.local/lib/R/etc
+cp /var/cache/docker-stacks/minimal-notebook/Rprofile.site /home/jovyan/.local/lib/R/etc/
+chown ${NB_UID}:${NB_GID} /home/jovyan/.local/lib/R/etc/
+
+# Switch back to jovyan to avoid accidental container runs as root
+su -w NB_USER - ${NB_USER}
+
+# npm must be installed by ROOT for source extensions
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+
+# https://saturncloud.io/blog/top-33-jupyterlab-extensions-2023/
+
+# Language Server Protocol: https://github.com/jupyter-lsp/jupyterlab-lsp
+pip install jupyterlab-lsp 'python-lsp-server[all]'
+
+# Execution time: https://github.com/deshaw/jupyterlab-execute-time
+pip install jupyterlab_execute_time
+
+# NVDashboard: https://github.com/rapidsai/jupyterlab-nvdashboard
+pip install bokeh==2.4.1
+pip install jupyterlab-nvdashboard==0.8.0a18 # TO DO : move to a stable version when available
+
+# jupyterlab-nvdashboard is not a jupyter server extension. The loading of the extension is managed by jupyter-server-proxy.
+# https://github.com/rapidsai/jupyterlab-nvdashboard/commit/3bb5dde75bedb98360ae309880adf4153ad65501
+# bokeh v3 is not supported, use bokeh=2.4.1
+# https://github.com/rapidsai/jupyterlab-nvdashboard/issues/139
+
+# Git: https://github.com/jupyterlab/jupyterlab-git
+pip install jupyterlab-git
+
+# Jupytext: https://pypi.org/project/jupytext/
+pip install jupytext
+
+# Jupyter Notebook Diff and Merge tools: https://github.com/jupyter/nbdime
+pip install nbdime
+
+# Matplotlib: https://github.com/matplotlib/ipympl
+pip install ipympl
+
+# TensorBoard: https://pypi.org/project/jupyterlab-tensorboard-pro/
+pip install jupyterlab-tensorboard-pro
+
+start-notebook.sh -ServerApp.base_url=/jupyter -IdentityProvider.token='' -ServerApp.port=8090 -ServerApp.root_dir=/home/$NB_USER/work -ServerApp.allow_remote_access=True -ServerApp.allow_origin='*' -ServerApp.disable_check_xsrf=True
+
+----
+install miniconda
+----
+
+vi /opt/conda/lib/python3.10/site-packages/ubuntu.pth
+/usr/lib/python3/dist-packages
+
+mv /opt/conda/lib/libstdc++.so.6 /opt/conda/lib/libstdc++.so.6.bak
+ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/lib/libstdc++.so.6
+
+---
+resources/docker-entrypoint.py
+---
+
+import os
+import sys
+from urllib.parse import quote
+
+# Environment variables
+base_url = os.getenv("WORKSPACE_BASE_URL", "")
+ENV_RESOURCES_PATH = os.getenv("RESOURCES_PATH", "/resources")
+ENV_WORKSPACE_HOME = os.getenv("WORKSPACE_HOME", "/workspace")
+EXECUTE_CODE = os.getenv("EXECUTE_CODE", None)
+INCLUDE_TUTORIALS = os.getenv('INCLUDE_TUTORIALS', "true")
+
+
+# Script arguments to next script
+script_arguments = " " + " ".join(sys.argv[1:])
+
+# Add leading slash
+if not base_url.startswith("/"):
+    base_url = "/" + base_url
+# Remove trailing slash
+base_url = base_url.rstrip("/").strip()
+# always quote base url
+base_url = quote(base_url, safe="/%")
+
+
+if EXECUTE_CODE:
+    # use workspace as working directory
+    sys.exit(
+        call(
+            "cd "
+            + ENV_WORKSPACE_HOME
+            + " && python "
+            + ENV_RESOURCES_PATH
+            + "/scripts/execute_code.py"
+            + script_arguments,
+            shell=True,
+        )
+    )
+
+sys.exit(
+    call(
+        "python " + ENV_RESOURCES_PATH + "/scripts/run_workspace.py" + script_arguments,
+        shell=True,
+    )
+)
+
+---
+resources/scripts/execute_code.py
+--- 
+
+parser.add_argument(
+    "--requirements-only",
+    help="Only install requirements without executing the code.",
+    action="store_true",
+)
+parser.add_argument(
+    "--code-only",
+    help="Only execute code without installing requirements.",
+    action="store_true",
+)
+
+if os.path.exists(EXECUTE_CODE):
+    code_path = EXECUTE_CODE
+
+# code script is the file that actually executed -> if directory it needs a main module
+main_script = code_path
+# Execute single script
+if os.path.isfile(code_path):
+    # set code path to the root folder of the script so it can also resolve conda env and requirements
+    code_path = os.path.dirname(os.path.realpath(code_path))
+
+
+    if not args.code_only:
+
+ # Check for conda environment file
+        conda_env_path = os.path.join(code_path, "environment.yml")
+        if os.path.isfile(conda_env_path):
+            conda_env_name = "conda-env"
+            log.info("Installing conda environment from " + conda_env_path)
+            call("conda env create -n " + conda_env_name + " -f " + conda_env_path)
+   
+ # Check for setup.sh file - TODO should we execute this file after pip and conda?
+        setup_path = os.path.join(code_path, "setup.sh")
+        if os.path.isfile(setup_path):
+            log.info("Running setup from " + setup_path)
+            call(bash_runtime + " " + setup_path) 
+
+ # Check for requirements.txt file
+        requirements_path = os.path.join(code_path, "requirements.txt")
+        if os.path.isfile(requirements_path):
+            log.info("Installing requirements from " + requirements_path)
+            call(pip_runtime + " install --no-cache-dir -r " + requirements_path)
+               
+if args.requirements_only:
+        log.info("Finished installing requirements. Code execution is deactivated.")
+        sys.exit(0)
+
+    log.info("Executing python code at path " + main_script)
+    # Run code: if it is a folder, it needs a main module (e.g. __main__.py)
+    exit_code = call(python_runtime + ' "' + main_script + '"')
+    
+---
+resources/scripts/run_workspace.py
+---
+
+# Only copy all content of tutorial folder to workspace folder if it is initialy empty
+if INCLUDE_TUTORIALS.lower() == "true" and os.path.exists(WORKSPACE_HOME) and len(os.listdir(WORKSPACE_HOME)) == 0:
+    log.info("Copy tutorials to /workspace folder")
+    from distutils.dir_util import copy_tree
+    # Copy all files within tutorials folder in resources to workspace home
+    copy_tree(os.path.join(ENV_RESOURCES_PATH, "tutorials"), WORKSPACE_HOME)
+
+
+startup_custom_script = os.path.join(WORKSPACE_HOME, "on_startup.sh")
+if os.path.exists(startup_custom_script):
+    log.info("Run on_startup.sh user script from workspace folder")
+    # run startup script from workspace folder - can be used to run installation routines on workspace updates
+    call("/bin/bash " + startup_custom_script, shell=True)
+
+---
+resources/jupyter/start-notebook.sh
+---
+
+# Copyright (c) Jupyter Development Team.
+. /usr/local/bin/start.sh jupyter lab "$NOTEBOOK_ARGS" "$@"
+
+---
+resources/jupyter/ipython_config.py
+---
+
+# Make matplotlib output in Jupyter notebooks display correctly
+c = get_config()
+
+c.IPKernelApp.matplotlib = "inline"
+c.TerminalInteractiveShell.history_length = 10000
+c.IPythonWidget.buffer_size = 10000
+
+---
+resources/jupyter/jupyter_notebook_config.py
+---
+
+c = get_config()
+# https://jupyter-notebook.readthedocs.io/en/stable/config.html
+c.NotebookApp.ip = "0.0.0.0"
+c.NotebookApp.port = 8090
+c.NotebookApp.notebook_dir = "./"
+c.NotebookApp.open_browser = False
+c.NotebookApp.allow_root = True
+# https://forums.fast.ai/t/jupyter-notebook-enhancements-tips-and-tricks/17064/22
+c.NotebookApp.iopub_msg_rate_limit = 100000000
+c.NotebookApp.iopub_data_rate_limit = 2147483647
+c.NotebookApp.port_retries = 0
+c.NotebookApp.quit_button = False
+c.NotebookApp.allow_remote_access = True
+c.NotebookApp.disable_check_xsrf = True
+c.NotebookApp.allow_origin = "*"
+c.NotebookApp.trust_xheaders = True
+c.MappingKernelManager.buffer_offline_messages = True
+c.Application.log_level = "WARN"
+c.NotebookApp.log_level = "WARN"
+
+c.JupyterApp.answer_yes = True
+
+# set base url if available
+base_url = os.getenv("WORKSPACE_BASE_URL", "/")
+if base_url is not None and base_url != "/":
+    c.NotebookApp.base_url = base_url
+
+# Do not delete files to trash: https://github.com/jupyter/notebook/issues/3130
+c.FileContentsManager.delete_to_trash = False
+
+# Always use inline for matplotlib
+c.IPKernelApp.matplotlib = "inline"
+
+shutdown_inactive_kernels = os.getenv("SHUTDOWN_INACTIVE_KERNELS", "false")
+if shutdown_inactive_kernels and shutdown_inactive_kernels.lower().strip() != "false":
+    cull_timeout = 172800  # default is 48 hours
+    try:
+        # see if env variable is set as timout integer
+        cull_timeout = int(shutdown_inactive_kernels)
+    except ValueError:
+        pass
+
+    if cull_timeout > 0:
+        print(
+            "Activating automatic kernel shutdown after "
+            + str(cull_timeout)
+            + "s of inactivity."
+        )
+        # Timeout (in seconds) after which a kernel is considered idle and ready to be shutdown.
+        c.MappingKernelManager.cull_idle_timeout = cull_timeout
+        # Do not shutdown if kernel is busy (e.g on long-running kernel cells)
+        c.MappingKernelManager.cull_busy = False
+        # Do not shutdown kernels that are connected via browser, activate?
+        c.MappingKernelManager.cull_connected = False
+
+authenticate_via_jupyter = os.getenv("AUTHENTICATE_VIA_JUPYTER", "false")
+if authenticate_via_jupyter and authenticate_via_jupyter.lower().strip() != "false":
+    # authentication via jupyter is activated
+
+    # Do not allow password change since it currently needs a server restart to accept the new password
+    c.NotebookApp.allow_password_change = False
+
+    if authenticate_via_jupyter.lower().strip() == "<generated>":
+        # dont do anything to let jupyter generate a token in print out on console
+        pass
+    # if true, do not set any token, authentication will be activate on another way (e.g. via JupyterHub)
+    elif authenticate_via_jupyter.lower().strip() != "true":
+        # if not true or false, set value as token
+        c.NotebookApp.token = authenticate_via_jupyter
+else:
+    # Deactivate token -> no authentication
+    c.NotebookApp.token = ""
+
+# https://github.com/timkpaine/jupyterlab_iframe
+try:
+    if not base_url.startswith("/"):
+        base_url = "/" + base_url
+    # iframe plugin currently needs absolut URLS
+    c.JupyterLabIFrame.iframes = [
+        base_url + "tools/ungit",
+        base_url + "tools/netdata",
+        base_url + "tools/vnc",
+        base_url + "tools/glances",
+        base_url + "tools/vscode",
+    ]
+except Exception:
+    pass
+
+# https://github.com/timkpaine/jupyterlab_templates
+WORKSPACE_HOME = os.getenv("WORKSPACE_HOME", "/workspace")
+try:
+    if os.path.exists(WORKSPACE_HOME + "/templates"):
+        c.JupyterLabTemplates.template_dirs = [WORKSPACE_HOME + "/templates"]
+    c.JupyterLabTemplates.include_default = False
+except Exception:
+    pass
+
+# Set memory limits for resource use display: https://github.com/yuvipanda/nbresuse
+try:
+    mem_limit = None
+    if os.path.isfile("/sys/fs/cgroup/memory/memory.limit_in_bytes"):
+        with open("/sys/fs/cgroup/memory/memory.limit_in_bytes", "r") as file:
+            mem_limit = file.read().replace("\n", "").strip()
+
+    total_memory = psutil.virtual_memory().total
+
+    if not mem_limit:
+        mem_limit = total_memory
+    elif int(mem_limit) > int(total_memory):
+        # if mem limit from cgroup bigger than total memory -> use total memory
+        mem_limit = total_memory
+
+    # Workaround -> round memory limit, otherwise the number is quite long
+    # TODO fix in nbresuse
+    mem_limit = round(int(mem_limit) / (1024 * 1024)) * (1024 * 1024)
+    c.ResourceUseDisplay.mem_limit = int(mem_limit)
+    c.ResourceUseDisplay.mem_warning_threshold = 0.1
+except Exception:
+    pass
+
+# Change default umask for all subprocesses of the notebook server if set in
+# the environment
+if "NB_UMASK" in os.environ:
+    os.umask(int(os.environ["NB_UMASK"], 8))
+
+--------
+virtual env
+--------
+
+apt install python3.10-venv
+
+cd project1/
+
+python -m venv --system-site-packages --prompt "project1" .venv
+
+source .venv/bin/activate
+
+deactivate

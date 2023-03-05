@@ -1,0 +1,15 @@
+export CR_PAT=mytoken
+echo $CR_PAT | nerdctl login ghcr.io -u mylogin --password-stdin
+
+nerdctl build --no-cache -t ghcr.io/wordslab-org/lambda-stack-server:22.04.2 -f lambda-stack-server.Dockerfile .
+nerdctl push ghcr.io/wordslab-org/lambda-stack-server:22.04.2
+
+nerdctl build --no-cache -t ghcr.io/wordslab-org/lambda-stack-cpu:0.1.13-22.04.2 -f lambda-stack-cpu.Dockerfile .
+nerdctl push ghcr.io/wordslab-org/lambda-stack-cpu:0.1.13-22.04.2
+
+nerdctl build --no-cache -t ghcr.io/wordslab-org/lambda-stack-cuda:0.1.13-22.04.2 -f lambda-stack-cuda.Dockerfile .
+nerdctl push ghcr.io/wordslab-org/lambda-stack-cuda:0.1.13-22.04.2
+
+# ghcr.io/wordslab-org/lambda-stack-server    22.04.2           989.1 MiB    326.1 MiB
+# ghcr.io/wordslab-org/lambda-stack-cpu       0.1.13-22.04.2    2.9 GiB      871.8 MiB
+# ghcr.io/wordslab-org/lambda-stack-cuda      0.1.13-22.04.2    12.9 GiB     6.6 GiB

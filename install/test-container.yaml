@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ls runtimes
+  name: lambda-stack
   labels:
-    app: wordslab-runtimes
+    app: lambda-stack
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wordslab-runtimes
+      app: lambda-stack
   template:
     metadata:
       labels:
-        app: wordslab-runtimes
+        app: lambda-stack
     spec:
       containers:
-      - name: wordslab-runtimes
-        image: ghcr.io/wordslab-org/wordslab-runtimes:2023.01.0
+      - name: lambda-stack
+        image: ghcr.io/wordslab-org/lambda-stack-cuda:0.1.13-22.04.2
         command:
           - "sleep"
           - "604800"

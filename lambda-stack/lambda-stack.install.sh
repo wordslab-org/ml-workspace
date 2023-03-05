@@ -2,7 +2,8 @@
 
 cd /root/
 
-apt update && apt install -y git
+# Install prerequisites
+apt update && apt install -y git wget
 git clone https://github.com/lambdal/lambda-stack-dockerfiles.git
 
 # Add libcuda dummy dependency

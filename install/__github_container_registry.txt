@@ -4,8 +4,8 @@ https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/c
 
 https://github.com/settings/tokens/new?scopes=write:packages
 
-export CR_PAT=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-echo $CR_PAT | nerdctl login ghcr.io -u laurentprudhon --password-stdin
+export CR_PAT=mytoken
+echo $CR_PAT | nerdctl login ghcr.io -u mylogin --password-stdin
 
 nerdctl build -t ghcr.io/wordslab-org/wordslab-ubuntu:2023.01.0 -f wordslab-ubuntu.Dockerfile .
 

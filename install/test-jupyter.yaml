@@ -48,7 +48,10 @@ spec:
     spec:
       containers:
       - name: wordslab-jupyter
-        image: ghcr.io/wordslab-org/wordslab-jupyter:2023.01.0
+        image: ghcr.io/wordslab-org/lambda-stack-cuda:0.1.13-22.04.2
+        command:
+          - "sleep"
+          - "604800"
         ports:
         - name: http
           containerPort: 8090
@@ -56,3 +59,10 @@ spec:
         env:
         - name: WORKSPACE_BASE_URL
           value: /jupyter
+        volumeMounts:
+          - name: dshm
+            mountPath: /dev/shm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory

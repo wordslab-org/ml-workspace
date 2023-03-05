@@ -1,0 +1,276 @@
+kind: "PersistentVolumeClaim"
+apiVersion: "v1"
+metadata:
+  name: wordslab-notebooks-workspace
+  labels:
+    app: wordslab-notebooks
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordslab-notebooks-ingressroute
+  labels:
+    app: wordslab-notebooks
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: PathPrefix(`/notebooks`)
+    kind: Rule
+    services:
+    - name: wordslab-notebooks-service
+      port: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordslab-notebooks-service
+  labels:
+    app: wordslab-notebooks
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: wordslab-notebooks
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordslab-notebooks-deployment
+  labels:
+    app: wordslab-notebooks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordslab-notebooks
+  template:
+    metadata:
+      labels:
+        app: wordslab-notebooks
+    spec:
+      containers:
+      - name: wordslab-jupyter-stack-container
+        image: ghcr.io/wordslab-org/kind: "PersistentVolumeClaim"
+apiVersion: "v1"
+metadata:
+  name: wordslab-notebooks-workspace
+  labels:
+    app: wordslab-notebooks
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordslab-notebooks-ingressroute
+  labels:
+    app: wordslab-notebooks
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: PathPrefix(`/notebooks`)
+    kind: Rule
+    services:
+    - name: wordslab-notebooks-service
+      port: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordslab-notebooks-service
+  labels:
+    app: wordslab-notebooks
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: wordslab-notebooks
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordslab-notebooks-deployment
+  labels:
+    app: wordslab-notebooks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordslab-notebooks
+  template:
+    metadata:
+      labels:
+        app: wordslab-notebooks
+    spec:
+      containers:
+      - name: wordslab-jupyter-stack-container
+        image: ghcr.io/wordslab-org/jupyter-stack:kind: "PersistentVolumeClaim"
+apiVersion: "v1"
+metadata:
+  name: wordslab-notebooks-workspace
+  labels:
+    app: wordslab-notebooks
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordslab-notebooks-ingressroute
+  labels:
+    app: wordslab-notebooks
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: PathPrefix(`/notebooks`)
+    kind: Rule
+    services:
+    - name: wordslab-notebooks-service
+      port: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordslab-notebooks-service
+  labels:
+    app: wordslab-notebooks
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: wordslab-notebooks
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordslab-notebooks-deployment
+  labels:
+    app: wordslab-notebooks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordslab-notebooks
+  template:
+    metadata:
+      labels:
+        app: wordslab-notebooks
+    spec:
+      containers:
+      - name: wordslab-jupyter-stack-container
+        image: ghcr.io/wordslab-org/jupyter-stack-cuda:lab-3.6.1-lambda-0.1.13-22.04.2
+        ports:
+        - name: http
+          containerPort: 8888
+          protocol: TCP
+        env:
+        - name: JUPYTER_BASE_URL
+          value: "/notebooks"
+        - name: JUPYTER_PORT
+          value: "8888"
+        - name: JUPYTER_TOKEN
+          value: ""
+        - name: JUPYTER_ROOT_DIR
+          value: "/"
+        - name: JUPYTER_SETUP_SCRIPT
+          value: "/setup.sh"
+        volumeMounts:
+          - name: dshm
+            mountPath: /dev/shm
+          - name: workspace
+            mountPath: /workspace
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: wordslab-notebooks-workspace
+
+        ports:
+        - name: http
+          containerPort: 8888
+          protocol: TCP
+        env:
+        - name: JUPYTER_BASE_URL
+          value: "/notebooks"
+        - name: JUPYTER_PORT
+          value: "8888"
+        - name: JUPYTER_TOKEN
+          value: ""
+        - name: JUPYTER_ROOT_DIR
+          value: "/"
+        - name: JUPYTER_SETUP_SCRIPT
+          value: "/setup.sh"
+        volumeMounts:
+          - name: dshm
+            mountPath: /dev/shm
+          - name: workspace
+            mountPath: /workspace
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: wordslab-notebooks-workspace
+
+        ports:
+        - name: http
+          containerPort: 8888
+          protocol: TCP
+        env:
+        - name: JUPYTER_BASE_URL
+          value: "/notebooks"
+        - name: JUPYTER_PORT
+          value: "8888"
+        - name: JUPYTER_TOKEN
+          value: ""
+        - name: JUPYTER_ROOT_DIR
+          value: "/"
+        - name: JUPYTER_SETUP_SCRIPT
+          value: "/setup.sh"
+        volumeMounts:
+          - name: dshm
+            mountPath: /dev/shm
+          - name: workspace
+            mountPath: /workspace
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: wordslab-notebooks-workspace

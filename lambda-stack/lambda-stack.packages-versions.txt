@@ -70,10 +70,84 @@ fasd
 traceroute
 # https://github.com/Syllo/nvtop
 nvtop
+
+# Specific to server
+
 # https://savannah.nongnu.org/projects/acl/
 acl
 # https://github.com/ipmitool/ipmitool
 ipmitool
+
+---
+lambda-desktop - Lambda Desktop system
+Version: 22.04.2
+Maintainer: Lambda Labs <software@lambdalabs.com>
+Depends: git, vim, curl, emacs, htop, tmux, screen, valgrind, stress, stress-ng
+Depends: python3-all, python-is-python3, python3-pip, python3-setuptools, python3-wheel, virtualenv, ipython3, jupyter
+Depends: build-essential, cmake, gfortran, flake8, fasd, traceroute, nvtop
+Homepage: http://lambdalabs.com
+Description: Lambda Desktop system
+ This metapackage depends on all of the packages for
+ a default Lambda Desktop environment.
+---
+
+# Recommends: ubuntu-desktop
+# Description: The Ubuntu desktop system
+# Depends: alsa-base, alsa-utils, anacron, at-spi2-core, bc, ca-certificates, dmz-cursor-theme, fonts-dejavu-core, fonts-freefont-ttf, foomatic-db-compressed-ppds, gdm3, ghostscript-x, gnome-control-center, gnome-menus, gnome-session-canberra, gnome-settings-daemon, gnome-shell, gnome-shell-extension-appindicator, gnome-shell-extension-desktop-icons-ng, gnome-shell-extension-ubuntu-dock, gstreamer1.0-alsa, gstreamer1.0-packagekit, gstreamer1.0-plugins-base-apps, gstreamer1.0-pulseaudio, inputattach, language-selector-common, language-selector-gnome, libatk-adaptor, libnotify-bin, libsasl2-modules, libu2f-udev, nautilus, openprinting-ppds, printer-driver-pnm2ppa, pulseaudio, rfkill, software-properties-gtk, spice-vdagent, ubuntu-desktop-minimal, ubuntu-drivers-common, ubuntu-release-upgrader-gtk, ubuntu-session, ubuntu-settings, unzip, update-manager, update-notifier, wireless-tools, wpasupplicant, xdg-user-dirs, xdg-user-dirs-gtk, xkb-data, xorg, yelp, zenity, zip
+
+# Specific to desktop
+
+# https://wiki.gnome.org/Apps/Tweaks
+# Description: tool to adjust advanced configuration settings for GNOME
+gnome-tweaks
+
+# https://plasma-gate.weizmann.ac.il/Grace
+# Description: XY graphing and plotting tool
+grace
+
+# https://feh.finalrewind.org/
+# Description: imlib2 based image viewer
+feh
+
+lambda-wallpapers - Lambda desktop wallpapers
+lambda-settings - Default settings for the Lambda desktop
+
+
+---
+lambda-stack-cpu - Deep learning software stack from Lambda Labs (CPU)
+Version: 0.1.13~22.04.2
+Section: metapackages
+Maintainer: Lambda Labs <software@lambdalabs.com>
+Description: Deep learning software stack from Lambda Labs (CPU)
+ This metapackage depends on the deep learning packages provided by
+ Lambda Labs for a CPU only environment.
+---
+
+python3-keras
+python3-sklearn
+python3-numpy
+python3-scipy
+python3-pandas
+python3-opencv
+tensorboard
+libprotobuf-dev
+python3-pil
+
+# http://pytorch.org
+# Version: 1.13.1+ds-0lambda0.22.04.1
+# Maintainer: Lambda Labs <software@lambdal.com>
+python3-torch-cpu
+
+#http://pytorch.org
+# Maintainer: Lambda Labs <software@lambdal.com>
+# Version: 0.14.1-0lambda0.22.04.1
+python3-torchvision-cpu
+
+# https://www.tensorflow.org
+# Maintainer: Lambda Labs <software@lambdalabs.com>
+# Version: 2.11.0-0lambda0.22.04.1
+python3-tensorflow-cpu
+
 
 ---
 Package: lambda-stack-cuda
@@ -156,3 +230,9 @@ python3-pynvml
 # Version: 2.16.2-0lambda1
 # Maintainer: Lambda Labs
 libnccl-dev
+
+
+
+
+
+
