@@ -252,6 +252,11 @@ deactivate\n\
 rm -rf /workspace/$projectname\n\
 ' > /usr/local/bin/delete-workspace-project.sh && chmod u+x /usr/local/bin/delete-workspace-project.sh
 
+# Compatibility with nvidia-container-runtime build environment
+RUN umount /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; rm -f /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; \
+    umount /usr/lib/x86_64-linux-gnu/libcuda.so.1 ; rm -f usr/lib/x86_64-linux-gnu/libcuda.so.1 ; \
+    umount /usr/lib/x86_64-linux-gnu/libdxcore.so ; rm -f /usr/lib/x86_64-linux-gnu/libdxcore.so
+
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-workspace.sh"]
