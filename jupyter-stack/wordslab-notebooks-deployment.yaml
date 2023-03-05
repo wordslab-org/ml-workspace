@@ -206,6 +206,12 @@ spec:
           value: "/"
         - name: JUPYTER_SETUP_SCRIPT
           value: "/setup.sh"
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: "all"
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: "compute,utility"
+        - name: NVIDIA_REQUIRE_CUDA
+          value: "cuda>=11.8"
         volumeMounts:
           - name: dshm
             mountPath: /dev/shm

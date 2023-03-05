@@ -229,6 +229,7 @@ jupyter lab -ServerApp.base_url="${JUPYTER_BASE_URL}" -ServerApp.port=${JUPYTER_
 
 # Create Python virtual environments for specific projects
 RUN echo -e '\
+#! /bin/bash
 projectname=$1\n\
 # Create project directory\n\
 mkdir -p /workspace/$projectname\n\
@@ -241,8 +242,9 @@ touch requirements.txt\n\
 python -m ipykernel install --user --name=$projectname\n\
 # To exit from the virtual environment :\n\
 # deactivate\n\
-' > /usr/local/bin/create-workspace-project.sh && chmod u+x /usr/local/bin/create-workspace-project.sh && \
+' > /usr/local/bin/create-workspace-project && chmod u+x /usr/local/bin/create-workspace-project && \
 echo -e '\
+#! /bin/bash
 projectname=$1\n\
 # Delete specific Jupyter kernel for this project\n\
 jupyter kernelspec uninstall $projectname\n\
@@ -250,12 +252,12 @@ jupyter kernelspec uninstall $projectname\n\
 deactivate\n\
 # Delete project directory\n\
 rm -rf /workspace/$projectname\n\
-' > /usr/local/bin/delete-workspace-project.sh && chmod u+x /usr/local/bin/delete-workspace-project.sh
+' > /usr/local/bin/delete-workspace-project && chmod u+x /usr/local/bin/delete-workspace-project
 
 # Compatibility with nvidia-container-runtime build environment
-RUN umount /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; rm -f /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; \
-    umount /usr/lib/x86_64-linux-gnu/libcuda.so.1 ; rm -f usr/lib/x86_64-linux-gnu/libcuda.so.1 ; \
-    umount /usr/lib/x86_64-linux-gnu/libdxcore.so ; rm -f /usr/lib/x86_64-linux-gnu/libdxcore.so
+# RUN umount /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; rm -f /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; \
+#    umount /usr/lib/x86_64-linux-gnu/libcuda.so.1 ; rm -f usr/lib/x86_64-linux-gnu/libcuda.so.1 ; \
+#    umount /usr/lib/x86_64-linux-gnu/libdxcore.so ; rm -f /usr/lib/x86_64-linux-gnu/libdxcore.so
 
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
