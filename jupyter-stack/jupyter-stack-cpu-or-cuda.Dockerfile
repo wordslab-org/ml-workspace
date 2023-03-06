@@ -174,7 +174,7 @@ RUN mkdir -p ${HOME}/.local/lib/R/etc && \
 # https://saturncloud.io/blog/top-33-jupyterlab-extensions-2023/
 
 # [Notebook templates]
-# JupyterLab templates:https://github.com/finos/jupyterlab_templates
+# JupyterLab templates: https://github.com/finos/jupyterlab_templates
 RUN pip install jupyterlab_templates && \
     jupyter labextension install jupyterlab_templates && \
     jupyter serverextension enable --py jupyterlab_templates && \
@@ -182,7 +182,12 @@ RUN pip install jupyterlab_templates && \
 
 # [Notebook code editor]
 # Language Server Protocol: https://github.com/jupyter-lsp/jupyterlab-lsp
-RUN pip install jupyterlab-lsp 'python-lsp-server[all]'
+# RUN pip install jupyterlab-lsp 'python-lsp-server[all]'
+
+# [Notebook debugger]
+# JupyterLab debugger: https://github.com/jupyterlab/debugger
+RUN jupyter labextension install @jupyterlab/debugger && \
+    npm cache clean --force && jupyter lab clean && rm -rf "${HOME}/.cache/yarn"
 
 # [Notebook versioning]
 # Git: https://github.com/jupyterlab/jupyterlab-git
@@ -212,6 +217,9 @@ RUN pip install ipympl && \
 # ------------------------------------------------------------
 # Container scripts for initialization and startup commands
 
+# Use bash as the default shell in JupyterLab
+ENV SHELL="/bin/bash"
+
 # JUPYTER WORKSPACE files and directories can be customized through environment variables.
 # All the path values are absolute paths under the /workspace mount point.
 # - Jupyter file explorer root directory: /workspace${JUPYTER_ROOT_DIR}
@@ -229,7 +237,6 @@ jupyter lab -ServerApp.base_url="${JUPYTER_BASE_URL}" -ServerApp.port=${JUPYTER_
 
 # Create Python virtual environments for specific projects
 RUN echo -e '\
-#! /bin/bash
 projectname=$1\n\
 # Create project directory\n\
 mkdir -p /workspace/$projectname\n\
@@ -244,7 +251,6 @@ python -m ipykernel install --user --name=$projectname\n\
 # deactivate\n\
 ' > /usr/local/bin/create-workspace-project && chmod u+x /usr/local/bin/create-workspace-project && \
 echo -e '\
-#! /bin/bash
 projectname=$1\n\
 # Delete specific Jupyter kernel for this project\n\
 jupyter kernelspec uninstall $projectname\n\
@@ -255,9 +261,9 @@ rm -rf /workspace/$projectname\n\
 ' > /usr/local/bin/delete-workspace-project && chmod u+x /usr/local/bin/delete-workspace-project
 
 # Compatibility with nvidia-container-runtime build environment
-# RUN umount /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; rm -f /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; \
-#    umount /usr/lib/x86_64-linux-gnu/libcuda.so.1 ; rm -f usr/lib/x86_64-linux-gnu/libcuda.so.1 ; \
-#    umount /usr/lib/x86_64-linux-gnu/libdxcore.so ; rm -f /usr/lib/x86_64-linux-gnu/libdxcore.so
+RUN umount /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; rm -f /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 ; \
+    umount /usr/lib/x86_64-linux-gnu/libcuda.so.1 ; rm -f usr/lib/x86_64-linux-gnu/libcuda.so.1 ; \
+    umount /usr/lib/x86_64-linux-gnu/libdxcore.so ; rm -f /usr/lib/x86_64-linux-gnu/libdxcore.so
 
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]

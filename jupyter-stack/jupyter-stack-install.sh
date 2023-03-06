@@ -121,7 +121,7 @@ jupyter serverextension enable --py jupyterlab_templates
 npm cache clean --force && jupyter lab clean && rm -rf "${HOME}/.cache/yarn"
 
 # Language Server Protocol: https://github.com/jupyter-lsp/jupyterlab-lsp
-pip install jupyterlab-lsp 'python-lsp-server[all]'
+# pip install jupyterlab-lsp 'python-lsp-server[all]'
 
 # Execution time: https://github.com/deshaw/jupyterlab-execute-time
 pip install jupyterlab_execute_time
@@ -163,6 +163,3 @@ export JUPYTER_ROOT_DIR="/" ;
 export JUPYTER_SETUP_SCRIPT="/setup.sh"
 
 SETUP_FILE="/workspace${JUPYTER_SETUP_SCRIPT}" test -x $SETUP_FILE && $SETUP_FILE ; jupyter lab -ServerApp.base_url="${JUPYTER_BASE_URL}" -ServerApp.port=${JUPYTER_PORT} -IdentityProvider.token="${JUPYTER_TOKEN}" -ServerApp.root_dir="/workspace${JUPYTER_ROOT_DIR}"
-
-
-
